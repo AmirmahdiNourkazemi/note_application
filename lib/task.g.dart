@@ -1,41 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'student.dart';
+part of 'task.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class StudentAdapter extends TypeAdapter<Student> {
+class TaskAdapter extends TypeAdapter<Task> {
   @override
-  final int typeId = 2;
+  final int typeId = 3;
 
   @override
-  Student read(BinaryReader reader) {
+  Task read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Student(
-      name: fields[0] as String,
-      age: fields[3] as int,
-      familly: fields[1] as String,
-      grade: fields[2] as double,
+    return Task(
+      title: fields[0] as String,
+      subTitle: fields[1] as String,
+      isDone: fields[2] as bool,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Student obj) {
+  void write(BinaryWriter writer, Task obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.name)
-      ..writeByte(1)
-      ..write(obj.familly)
-      ..writeByte(2)
-      ..write(obj.grade)
       ..writeByte(3)
-      ..write(obj.age);
+      ..writeByte(0)
+      ..write(obj.title)
+      ..writeByte(1)
+      ..write(obj.subTitle)
+      ..writeByte(2)
+      ..write(obj.isDone);
   }
 
   @override
@@ -44,7 +41,7 @@ class StudentAdapter extends TypeAdapter<Student> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StudentAdapter &&
+      other is TaskAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

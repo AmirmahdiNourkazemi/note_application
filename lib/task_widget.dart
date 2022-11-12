@@ -1,40 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
+import 'package:note_application/task.dart';
 
-class TsakWidget extends StatefulWidget {
-  TsakWidget({Key? key , required }) : super(key: key);
-
+class TaskWidget extends StatefulWidget {
+  TaskWidget({Key? key, required this.task}) : super(key: key);
+  Task task;
   @override
-  State<TsakWidget> createState() => _TsakWidgetState();
+  State<TaskWidget> createState() => _TaskWidgetState();
 }
 
-class _TsakWidgetState extends State<TsakWidget> {
+class _TaskWidgetState extends State<TaskWidget> {
+  bool isBoxChecked = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isBoxChecked = widget.task.isDone;
+  }
+
   @override
   Widget build(BuildContext context) {
     return getTaskItem();
   }
 
-  Container getTaskItem() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 24),
-      height: 132,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(16),
+  Widget getTaskItem() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isBoxChecked = !isBoxChecked;
+          widget.task.isDone = isBoxChecked;
+          widget.task.save();
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        height: 132,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(16),
+          ),
+          color: Color(0XFFFFFFFFF),
         ),
-        color: Color(0XFFFFFFFFF),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: getMainItem(),
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: getMainItem(),
+        ),
       ),
     );
   }
 
   Row getMainItem() {
-    bool isChecked = false;
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -45,26 +61,21 @@ class _TsakWidgetState extends State<TsakWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MSHCheckbox(
-                    size: 30,
-                    value: isChecked,
-                    //isDisabled: isDisabled,
-                    checkedColor: Color(0xff18DAA3),
-                    uncheckedColor: Colors.black12,
-                    style: MSHCheckboxStyle.fillScaleColor,
-                    onChanged: (selected) {
-                      setState(
-                        () {
-                          isChecked = selected;
-                        },
-                      );
-                    },
-                  ),
+                  Checkbox(
+                      value: isBoxChecked,
+                      onChanged: (isChecked) {
+                        isBoxChecked = isChecked!;
+                      }),
                   //Spacer(),
-                  Text('data reade')
+                  Text(
+                    widget.task.title,
+                  )
                 ],
               ),
-              Text('data'),
+              Text(
+                widget.task.subTitle,
+                overflow: TextOverflow.ellipsis,
+              ),
               Spacer(),
               getTmeAndEditBadge()
             ],
@@ -90,7 +101,7 @@ class _TsakWidgetState extends State<TsakWidget> {
     );
   }
 
-  Row getTmeAndEditBadge() {
+  Widget getTmeAndEditBadge() {
     return Row(
       children: [
         Container(

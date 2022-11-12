@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_application/car.dart';
+import 'package:note_application/add_task_widget.dart';
 import 'package:note_application/home_screen.dart';
-import 'package:note_application/student.dart';
+
+import 'task.dart';
 
 void main() async {
   await Hive.initFlutter();
   // var box = await Hive.openBox('name');
   //Hive.registerAdapter(CarAdapter());
   //await Hive.openBox<Car>('carBox');
-  Hive.registerAdapter(StudentAdapter());
-  await Hive.openBox<Student>('studentBox');
+  //Hive.registerAdapter(StudentAdapter());
+  Hive.registerAdapter(TaskAdapter());
+  //await Hive.openBox<Student>('studentBox');
+  await Hive.openBox<Task>('taskBox');
   runApp(MainScreen());
 }
 
@@ -20,6 +23,16 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'SM',
+        textTheme: TextTheme(
+          headline4: TextStyle(
+            fontFamily: 'SM',
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
