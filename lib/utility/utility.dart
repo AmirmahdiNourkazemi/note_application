@@ -1,5 +1,5 @@
-import 'package:note_application/enum_task.dart';
-import 'package:note_application/task_type.dart';
+import '../data/task_type.dart';
+import '../data/enum_task.dart';
 
 List<TaskType> getTaskTypeList() {
   var list = [
@@ -35,6 +35,30 @@ List<TaskType> getTaskTypeList() {
         image: 'assets/images/programming.jpg',
         title: 'برنامه نویسی',
         taskTypeEnum: taskTypeEnum.programming),
+    TaskType(
+        image: 'assets/images/go_to_class.jpg',
+        title: 'سرکلاس',
+        taskTypeEnum: taskTypeEnum.goToClass),
+    TaskType(
+        image: 'assets/images/listen_to_music.jpg',
+        title: 'موزیک',
+        taskTypeEnum: taskTypeEnum.listenToMusic),
+    TaskType(
+        image: 'assets/images/planning.jpg',
+        title: 'برنامه ریزی',
+        taskTypeEnum: taskTypeEnum.plannig),
+    TaskType(
+        image: 'assets/images/rest.jpg',
+        title: 'استراحت کردن',
+        taskTypeEnum: taskTypeEnum.rest),
+    TaskType(
+        image: 'assets/images/study.jpg',
+        title: 'درس خوندن',
+        taskTypeEnum: taskTypeEnum.study),
+    TaskType(
+        image: 'assets/images/wake_up.jpg',
+        title: 'بیدار شدن',
+        taskTypeEnum: taskTypeEnum.wake_up),
   ];
   return list;
 }

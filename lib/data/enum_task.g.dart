@@ -27,6 +27,18 @@ class taskTypeEnumAdapter extends TypeAdapter<taskTypeEnum> {
         return taskTypeEnum.friends;
       case 6:
         return taskTypeEnum.programming;
+      case 7:
+        return taskTypeEnum.study;
+      case 8:
+        return taskTypeEnum.wake_up;
+      case 9:
+        return taskTypeEnum.rest;
+      case 10:
+        return taskTypeEnum.listenToMusic;
+      case 11:
+        return taskTypeEnum.goToClass;
+      case 12:
+        return taskTypeEnum.plannig;
       default:
         return taskTypeEnum.working;
     }
@@ -55,6 +67,24 @@ class taskTypeEnumAdapter extends TypeAdapter<taskTypeEnum> {
         break;
       case taskTypeEnum.programming:
         writer.writeByte(6);
+        break;
+      case taskTypeEnum.study:
+        writer.writeByte(7);
+        break;
+      case taskTypeEnum.wake_up:
+        writer.writeByte(8);
+        break;
+      case taskTypeEnum.rest:
+        writer.writeByte(9);
+        break;
+      case taskTypeEnum.listenToMusic:
+        writer.writeByte(10);
+        break;
+      case taskTypeEnum.goToClass:
+        writer.writeByte(11);
+        break;
+      case taskTypeEnum.plannig:
+        writer.writeByte(12);
         break;
     }
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:msh_checkbox/msh_checkbox.dart';
-import 'package:note_application/edit_task_screen.dart';
-import 'package:note_application/task.dart';
+
+
+import '../data/task.dart';
+import '../screens/edit_task_screen.dart';
 
 class TaskWidget extends StatefulWidget {
   TaskWidget({Key? key, required this.task}) : super(key: key);
@@ -14,7 +15,6 @@ class _TaskWidgetState extends State<TaskWidget> {
   bool isBoxChecked = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isBoxChecked = widget.task.isDone;
   }
@@ -62,11 +62,22 @@ class _TaskWidgetState extends State<TaskWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Checkbox(
+                  Transform.scale(
+                    scale: 1.2,
+                    child: Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4),
+                        ),
+                      ),
+                      checkColor: Colors.white,
+                      activeColor: Colors.green,
                       value: isBoxChecked,
                       onChanged: (isChecked) {
                         isBoxChecked = isChecked!;
-                      }),
+                      },
+                    ),
+                  ),
                   //Spacer(),
                   Text(
                     widget.task.title,
@@ -87,7 +98,7 @@ class _TaskWidgetState extends State<TaskWidget> {
         SizedBox(
           width: 20,
         ),
-        Image.asset('assets/images/workout.png'),
+        Image.asset(widget.task.taskType.image),
       ],
     );
   }
@@ -156,9 +167,9 @@ class _TaskWidgetState extends State<TaskWidget> {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/icon_edit.png'),
                   SizedBox(

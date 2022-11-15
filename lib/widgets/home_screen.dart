@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_application/add_task_widget.dart';
-import 'package:note_application/task.dart';
-import 'package:note_application/task_widget.dart';
+import 'package:note_application/widgets/task_widget.dart';
+
+import '../data/task.dart';
+import '../screens/add_task_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -47,9 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: taskBox.values.length,
                 itemBuilder: (context, index) {
                   var task = taskBox.values.toList()[index];
-                  print(task.taskType.title);
                   return getListItem(task);
-                }, 
+                },
               ),
             );
           }),

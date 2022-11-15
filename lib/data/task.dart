@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_application/task_type.dart';
+import 'package:note_application/data/task_type.dart';
+
 
 part 'task.g.dart';
 

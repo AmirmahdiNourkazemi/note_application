@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_application/enum_task.dart';
-import 'package:note_application/task.dart';
-import 'package:note_application/task_type.dart';
-import 'package:note_application/utility.dart';
 import 'package:time_pickerr/time_pickerr.dart';
 
-class addTsakWidget extends StatefulWidget {
-  addTsakWidget({Key? key}) : super(key: key);
+import '../data/task.dart';
+import '../utility/utility.dart';
+import '../widgets/task_type_item.dart';
+import 'add_task_widget.dart';
 
+class editTsakWidget extends StatefulWidget {
+  editTsakWidget({Key? key, required this.task}) : super(key: key);
+  Task task;
   @override
-  State<addTsakWidget> createState() => _addTsakWidgetState();
+  State<editTsakWidget> createState() => _editTsakWidgetState();
 }
 
-class _addTsakWidgetState extends State<addTsakWidget> {
+class _editTsakWidgetState extends State<editTsakWidget> {
   FocusNode negahban1 = FocusNode();
   FocusNode negahban2 = FocusNode();
+  TextEditingController? controllerTaskTitle;
+  TextEditingController? controllerSubTaskTitle;
   DateTime? _time;
   int SelectedType = 0;
-
-  final TextEditingController controllerTaskTitle = TextEditingController();
-  final TextEditingController controllerSubTaskTitle = TextEditingController();
-
   final box = Hive.box<Task>('taskBox');
 
   @override
   void initState() {
     super.initState();
+    controllerTaskTitle = TextEditingController(text: widget.task.title);
+    controllerSubTaskTitle = TextEditingController(text: widget.task.subTitle);
+    var index = getTaskTypeList().indexWhere((element) {
+      return element.taskTypeEnum == widget.task.taskType.taskTypeEnum;
+    });
+    SelectedType = index;
+    print(SelectedType);
     negahban1.addListener(() {
       setState(() {});
     });
@@ -46,7 +52,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 70,
+                height: 60,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 44),
@@ -102,7 +108,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         fontSize: 25,
                         color: negahban2.hasFocus
                             ? Color(0xff18DAA3)
-                            : Colors.white,
+                            : Color.fromARGB(255, 46, 45, 45),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -172,17 +178,19 @@ class _addTsakWidgetState extends State<addTsakWidget> {
               Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  String task1 = controllerTaskTitle.text;
-                  String task2 = controllerSubTaskTitle.text;
+                  String task1 = controllerTaskTitle!.text;
+                  String task2 = controllerSubTaskTitle!.text;
                   addTask(task1, task2);
                   Navigator.pop(context);
                 },
                 child: Text(
-                  'اضافه کردن تسک',
+                  'ویرایش کردن تسک',
                   style: TextStyle(fontSize: 18),
                 ),
                 style: ElevatedButton.styleFrom(
-                    primary: Color(0xff18DAA3), minimumSize: Size(200, 40)),
+                  primary: Color(0xff18DAA3),
+                  minimumSize: Size(200, 40),
+                ),
               )
             ],
           ),
@@ -192,44 +200,10 @@ class _addTsakWidgetState extends State<addTsakWidget> {
   }
 
   addTask(String task, String subTask) {
-    var allTask = Task(
-        title: task,
-        subTitle: subTask,
-        time: _time!,
-        taskType: getTaskTypeList()[SelectedType]);
-    box.add(allTask);
-    //print(box.get(1)!.title);
-  }
-}
-
-class taskTypeList extends StatelessWidget {
-  taskTypeList(
-      {Key? key,
-      required this.taskType,
-      required this.index,
-      required this.selectedItem})
-      : super(key: key);
-  TaskType taskType;
-  int index;
-  int selectedItem;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: (selectedItem == index) ? Colors.green : Colors.transparent,
-          width: 3,
-        ),
-      ),
-      width: 140,
-      margin: EdgeInsets.all(8),
-      //color: Colors.green,
-      child: Column(
-        children: [
-          Image.asset(taskType.image),
-          Text(taskType.title),
-        ],
-      ),
-    );
+    widget.task.title = task;
+    widget.task.subTitle = subTask;
+    widget.task.time = _time!;
+    widget.task.taskType = getTaskTypeList()[SelectedType];
+    widget.task.save();
   }
 }

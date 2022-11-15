@@ -1,38 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:note_application/task.dart';
-import 'package:note_application/task_type.dart';
-import 'package:note_application/utility.dart';
 import 'package:time_pickerr/time_pickerr.dart';
 
-import 'add_task_widget.dart';
+import '../data/task.dart';
+import '../utility/utility.dart';
+import '../widgets/task_type_item.dart';
 
-class editTsakWidget extends StatefulWidget {
-  editTsakWidget({Key? key, required this.task}) : super(key: key);
-  Task task;
+class addTsakWidget extends StatefulWidget {
+  addTsakWidget({Key? key}) : super(key: key);
+
   @override
-  State<editTsakWidget> createState() => _editTsakWidgetState();
+  State<addTsakWidget> createState() => _addTsakWidgetState();
 }
 
-class _editTsakWidgetState extends State<editTsakWidget> {
+class _addTsakWidgetState extends State<addTsakWidget> {
   FocusNode negahban1 = FocusNode();
   FocusNode negahban2 = FocusNode();
-  TextEditingController? controllerTaskTitle;
-  TextEditingController? controllerSubTaskTitle;
   DateTime? _time;
   int SelectedType = 0;
+
+  final TextEditingController controllerTaskTitle = TextEditingController();
+  final TextEditingController controllerSubTaskTitle = TextEditingController();
+
   final box = Hive.box<Task>('taskBox');
 
   @override
   void initState() {
     super.initState();
-    controllerTaskTitle = TextEditingController(text: widget.task.title);
-    controllerSubTaskTitle = TextEditingController(text: widget.task.subTitle);
-    var index = getTaskTypeList().indexWhere((element) {
-      return element.taskTypeEnum == widget.task.taskType.taskTypeEnum;
-    });
-    SelectedType = index;
-    print(SelectedType);
     negahban1.addListener(() {
       setState(() {});
     });
@@ -52,7 +46,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 60,
+                height: 70,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 44),
@@ -108,7 +102,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                         fontSize: 25,
                         color: negahban2.hasFocus
                             ? Color(0xff18DAA3)
-                            : Color.fromARGB(255, 46, 45, 45),
+                            : Colors.white,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -178,17 +172,19 @@ class _editTsakWidgetState extends State<editTsakWidget> {
               Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  String task1 = controllerTaskTitle!.text;
-                  String task2 = controllerSubTaskTitle!.text;
+                  String task1 = controllerTaskTitle.text;
+                  String task2 = controllerSubTaskTitle.text;
                   addTask(task1, task2);
                   Navigator.pop(context);
                 },
                 child: Text(
-                  'ویرایش کردن تسک',
+                  'اضافه کردن تسک',
                   style: TextStyle(fontSize: 18),
                 ),
                 style: ElevatedButton.styleFrom(
-                    primary: Color(0xff18DAA3), minimumSize: Size(200, 40)),
+                  primary: Color(0xff18DAA3),
+                  minimumSize: Size(200, 40),
+                ),
               )
             ],
           ),
@@ -198,10 +194,12 @@ class _editTsakWidgetState extends State<editTsakWidget> {
   }
 
   addTask(String task, String subTask) {
-    widget.task.title = task;
-    widget.task.subTitle = subTask;
-    widget.task.time = _time!;
-    widget.task.taskType = getTaskTypeList()[SelectedType];
-    widget.task.save();
+    var allTask = Task(
+        title: task,
+        subTitle: subTask,
+        time: _time!,
+        taskType: getTaskTypeList()[SelectedType]);
+    box.add(allTask);
+    //print(box.get(1)!.title);
   }
 }
