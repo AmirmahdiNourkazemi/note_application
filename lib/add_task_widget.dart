@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_application/enum_task.dart';
 import 'package:note_application/task.dart';
+import 'package:note_application/task_type.dart';
+import 'package:note_application/utility.dart';
 import 'package:time_pickerr/time_pickerr.dart';
 
 class addTsakWidget extends StatefulWidget {
@@ -14,6 +17,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
   FocusNode negahban1 = FocusNode();
   FocusNode negahban2 = FocusNode();
   DateTime? _time;
+  int SelectedType = 0;
 
   final TextEditingController controllerTaskTitle = TextEditingController();
   final TextEditingController controllerSubTaskTitle = TextEditingController();
@@ -42,7 +46,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 100,
+                height: 70,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 44),
@@ -142,6 +146,29 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                   onNegativePressed: (context) {},
                 ),
               ),
+              Container(
+                height: 200,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: getTaskTypeList().length,
+                  itemBuilder: ((context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(
+                          () {
+                            SelectedType = index;
+                          },
+                        );
+                      },
+                      child: taskTypeList(
+                        taskType: getTaskTypeList()[index],
+                        index: index,
+                        selectedItem: SelectedType,
+                      ),
+                    );
+                  }),
+                ),
+              ),
               Spacer(),
               ElevatedButton(
                 onPressed: () {
@@ -164,9 +191,45 @@ class _addTsakWidgetState extends State<addTsakWidget> {
     );
   }
 
-  addTask(String task, String subTask ) {
-    var allTask = Task(title: task, subTitle: subTask,time: _time!);
+  addTask(String task, String subTask) {
+    var allTask = Task(
+        title: task,
+        subTitle: subTask,
+        time: _time!,
+        taskType: getTaskTypeList()[SelectedType]);
     box.add(allTask);
     //print(box.get(1)!.title);
+  }
+}
+
+class taskTypeList extends StatelessWidget {
+  taskTypeList(
+      {Key? key,
+      required this.taskType,
+      required this.index,
+      required this.selectedItem})
+      : super(key: key);
+  TaskType taskType;
+  int index;
+  int selectedItem;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: (selectedItem == index) ? Colors.green : Colors.transparent,
+          width: 3,
+        ),
+      ),
+      width: 140,
+      margin: EdgeInsets.all(8),
+      //color: Colors.green,
+      child: Column(
+        children: [
+          Image.asset(taskType.image),
+          Text(taskType.title),
+        ],
+      ),
+    );
   }
 }

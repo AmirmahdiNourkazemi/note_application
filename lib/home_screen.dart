@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(253, 182, 182, 182),
+      backgroundColor: Color.fromARGB(250, 214, 213, 213),
       body: Center(
         child: ValueListenableBuilder(
           valueListenable: taskBox.listenable(),
@@ -47,8 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: taskBox.values.length,
                 itemBuilder: (context, index) {
                   var task = taskBox.values.toList()[index];
+                  print(task.taskType.title);
                   return getListItem(task);
-                },
+                }, 
               ),
             );
           }),

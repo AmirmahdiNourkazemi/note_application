@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/task.dart';
+import 'package:note_application/task_type.dart';
+import 'package:note_application/utility.dart';
 import 'package:time_pickerr/time_pickerr.dart';
+
+import 'add_task_widget.dart';
 
 class editTsakWidget extends StatefulWidget {
   editTsakWidget({Key? key, required this.task}) : super(key: key);
@@ -13,11 +17,10 @@ class editTsakWidget extends StatefulWidget {
 class _editTsakWidgetState extends State<editTsakWidget> {
   FocusNode negahban1 = FocusNode();
   FocusNode negahban2 = FocusNode();
-
   TextEditingController? controllerTaskTitle;
   TextEditingController? controllerSubTaskTitle;
   DateTime? _time;
-
+  int SelectedType = 0;
   final box = Hive.box<Task>('taskBox');
 
   @override
@@ -25,7 +28,11 @@ class _editTsakWidgetState extends State<editTsakWidget> {
     super.initState();
     controllerTaskTitle = TextEditingController(text: widget.task.title);
     controllerSubTaskTitle = TextEditingController(text: widget.task.subTitle);
-
+    var index = getTaskTypeList().indexWhere((element) {
+      return element.taskTypeEnum == widget.task.taskType.taskTypeEnum;
+    });
+    SelectedType = index;
+    print(SelectedType);
     negahban1.addListener(() {
       setState(() {});
     });
@@ -45,7 +52,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 100,
+                height: 60,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 44),
@@ -145,6 +152,29 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                   onNegativePressed: (context) {},
                 ),
               ),
+              Container(
+                height: 200,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: getTaskTypeList().length,
+                  itemBuilder: ((context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(
+                          () {
+                            SelectedType = index;
+                          },
+                        );
+                      },
+                      child: taskTypeList(
+                        taskType: getTaskTypeList()[index],
+                        index: index,
+                        selectedItem: SelectedType,
+                      ),
+                    );
+                  }),
+                ),
+              ),
               Spacer(),
               ElevatedButton(
                 onPressed: () {
@@ -171,6 +201,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
     widget.task.title = task;
     widget.task.subTitle = subTask;
     widget.task.time = _time!;
+    widget.task.taskType = getTaskTypeList()[SelectedType];
     widget.task.save();
   }
 }
