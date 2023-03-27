@@ -60,10 +60,10 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                           EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                       labelText: 'تسک ها',
                       labelStyle: TextStyle(
-                        fontSize: 25,
+                        fontSize: 20,
                         color: negahban1.hasFocus
                             ? Color(0xff18DAA3)
-                            : Colors.white,
+                            : Color.fromARGB(255, 46, 45, 45),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -99,10 +99,10 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                           EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                       labelText: 'عنوان تسک ها',
                       labelStyle: TextStyle(
-                        fontSize: 25,
+                        fontSize: 20,
                         color: negahban2.hasFocus
                             ? Color(0xff18DAA3)
-                            : Colors.white,
+                            : Color.fromARGB(255, 46, 45, 45),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
