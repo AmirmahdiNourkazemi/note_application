@@ -68,7 +68,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                         fontSize: 25,
                         color: negahban1.hasFocus
                             ? Color(0xff18DAA3)
-                            : Colors.white,
+                            : Color.fromARGB(255, 46, 45, 45),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),

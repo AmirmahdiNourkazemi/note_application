@@ -24,7 +24,7 @@ class _TaskWidgetState extends State<TaskWidget> {
   }
 
   Widget getTaskItem() {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         setState(() {
           isBoxChecked = !isBoxChecked;

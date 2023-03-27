@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_application/widgets/note_screen.dart';
 import 'package:note_application/widgets/task_widget.dart';
 
 import '../data/task.dart';
@@ -33,9 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Color(0xff18DAA3),
       ),
       backgroundColor: Color.fromARGB(250, 214, 213, 213),
-      body: IndexedStack(index: _selectedIndex, children: getLayout()),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: getLayout(),
+      ),
       floatingActionButton: Visibility(
-        visible: isFabVisible,
+        visible: _selectedIndex == 0 && isFabVisible ? true : false,
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -68,12 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.check_box),
-                label: 'ToDo',
-                backgroundColor: Color(0xff18DAA3),
-                activeIcon: Icon(
-                  Icons.indeterminate_check_box_outlined,
-                )),
+              icon: Icon(Icons.check_box),
+              label: 'ToDo',
+              backgroundColor: Color(0xff18DAA3),
+              activeIcon: Icon(
+                Icons.indeterminate_check_box_outlined,
+              ),
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.note_add),
               label: 'Note',
@@ -98,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Center ToDoScreen() {
+  Widget ToDoScreen() {
     return Center(
       child: ValueListenableBuilder(
         valueListenable: taskBox.listenable(),
@@ -131,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> getLayout() {
     return <Widget>[
       ToDoScreen(),
-      Container(),
+      NoteScreen(),
       Container(),
     ];
   }
