@@ -46,7 +46,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 70,
+                height: 20,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 44),

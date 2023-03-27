@@ -5,7 +5,6 @@ import 'package:time_pickerr/time_pickerr.dart';
 import '../data/task.dart';
 import '../utility/utility.dart';
 import '../widgets/task_type_item.dart';
-import 'add_task_widget.dart';
 
 class editTsakWidget extends StatefulWidget {
   editTsakWidget({Key? key, required this.task}) : super(key: key);

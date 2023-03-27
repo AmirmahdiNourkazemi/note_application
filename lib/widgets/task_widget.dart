@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../data/task.dart';
 import '../screens/edit_task_screen.dart';
 
@@ -98,7 +97,11 @@ class _TaskWidgetState extends State<TaskWidget> {
         SizedBox(
           width: 20,
         ),
-        Image.asset(widget.task.taskType.image),
+        Container(
+          width: 100,
+          height: 200,
+          child: Image.asset(widget.task.taskType.image),
+        )
       ],
     );
   }
@@ -149,6 +152,9 @@ class _TaskWidgetState extends State<TaskWidget> {
             ),
           ),
         ),
+        SizedBox(
+          width: 15,
+        ),
         InkWell(
           onTap: () {
             Navigator.of(context).push(
@@ -171,7 +177,11 @@ class _TaskWidgetState extends State<TaskWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/icon_edit.png'),
+                  Icon(
+                    Icons.edit,
+                    color: Color.fromARGB(255, 70, 199, 74),
+                    size: 18,
+                  ),
                   SizedBox(
                     width: 5,
                   ),
@@ -179,7 +189,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                     'ویرایش',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 0, 200, 144),
+                      color: Color(0xff18DAA3),
                     ),
                   )
                 ],
