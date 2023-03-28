@@ -106,16 +106,6 @@ class _TaskWidgetState extends State<TaskWidget> {
     );
   }
 
-  Column getTitle() {
-    return Column(
-      children: [
-        Text('salam'),
-        Text('salam'),
-        getTmeAndEditBadge(),
-      ],
-    );
-  }
-
   Widget getTmeAndEditBadge() {
     return Row(
       children: [
@@ -207,4 +197,5 @@ class _TaskWidgetState extends State<TaskWidget> {
     } else
       return '${time.minute}';
   }
+
 }

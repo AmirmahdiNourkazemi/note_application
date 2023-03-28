@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:note_application/data/note.dart';
 import 'package:note_application/screens/add_note_widget.dart';
+import 'package:note_application/widgets/note_widget.dart';
 
 import '../screens/add_task_widget.dart';
 
@@ -10,12 +14,14 @@ class NoteScreen extends StatefulWidget {
   State<NoteScreen> createState() => _NoteScreenState();
 }
 
-class _NoteScreenState extends State<NoteScreen>
-    with SingleTickerProviderStateMixin {
+class _NoteScreenState extends State<NoteScreen> {
+  var taskBox = Hive.box<Note>('NoteBox');
   bool isFabVisible = true;
-
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      var taskBox = Hive.box<Note>('NoteBox');
+    });
     return Scaffold(
       backgroundColor: Color.fromARGB(250, 214, 213, 213),
       body: CustomScrollView(
@@ -33,30 +39,26 @@ class _NoteScreenState extends State<NoteScreen>
               ),
             ),
           ),
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  width: 200,
-                  height: 200,
-                  alignment: Alignment.center,
-                  //color: Colors.teal[100 * (index % 9)],
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      border: Border.all(color: Colors.black, width: 0.5),
-                    ),
-                  ),
-                );
-              },
-              childCount: 20,
-            ),
+          ValueListenableBuilder(
+            valueListenable: taskBox.listenable(),
+            builder: (context, value, child) {
+              return SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return GestureDetector(
+                        onLongPress: () {
+                          _showContextMenu(context);
+                        },
+                        child:
+                            NoteWidget(note: taskBox.values.toList()[index]));
+                  },
+                  childCount: taskBox.values.length,
+                ),
+              );
+            },
           )
         ],
       ),
@@ -94,6 +96,33 @@ class _NoteScreenState extends State<NoteScreen>
         ),
       ),
     );
+  }
+
+  void _showContextMenu(BuildContext context) async {
+    final RenderObject? overlay =
+        Overlay.of(context)?.context.findRenderObject();
+
+    final result =
+        await showMenu(context: context, position: RelativeRect.fill, items: [
+      const PopupMenuItem(
+        child: Text('Add Me'),
+        value: "fav",
+      ),
+      const PopupMenuItem(
+        child: Text('Close'),
+        value: "close",
+      )
+    ]);
+    // perform action on selected menu item
+    switch (result) {
+      case 'fav':
+        print("fav");
+        break;
+      case 'close':
+        print('close');
+        Navigator.pop(context);
+        break;
+    }
   }
 }
 

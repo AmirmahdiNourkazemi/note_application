@@ -15,6 +15,8 @@ void main() async {
   Hive.registerAdapter(taskTypeEnumAdapter());
   await Hive.openBox<Task>('taskBox');
   await Hive.openBox<Note>('NoteBox');
+  visualDensity:
+  VisualDensity.adaptivePlatformDensity;
   runApp(MainScreen());
 }
 

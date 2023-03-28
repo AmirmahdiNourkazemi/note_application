@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:note_application/data/note.dart';
+
 import '../data/task.dart';
 
 class AddNote extends StatefulWidget {
@@ -17,6 +18,7 @@ class _AddNoteState extends State<AddNote> {
 
   final TextEditingController controllerTaskTitle = TextEditingController();
   final TextEditingController controllerSubTaskTitle = TextEditingController();
+
   final box = Hive.box<Note>('NoteBox');
 
   @override
@@ -84,6 +86,16 @@ class _AddNoteState extends State<AddNote> {
               padding: EdgeInsets.symmetric(horizontal: 44),
               child: Directionality(
                 textDirection: TextDirection.rtl,
+                // child: Column(
+                //   children: [
+                //     ZefyrToolbar.basic(controller: _controller),
+                //     Expanded(
+                //       child: ZefyrEditor(
+                //         controller: _controller,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 child: TextField(
                   controller: controllerSubTaskTitle,
                   maxLines: 3,
@@ -120,7 +132,7 @@ class _AddNoteState extends State<AddNote> {
                 String task1 = controllerTaskTitle.text;
                 String task2 = controllerSubTaskTitle.text;
                 addNote(task1, task2);
-                //Navigator.pop(context);
+                Navigator.pop(context);
               },
               child: Text(
                 'اضافه کردن تسک',
@@ -143,7 +155,7 @@ class _AddNoteState extends State<AddNote> {
       subject: subTask,
     );
     box.add(allNote);
-    print(box.get(0)!.subject);
+    //print(box.get(0)!.subject);
     //print(box.get(1)!.title);
   }
 }
