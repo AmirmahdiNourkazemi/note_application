@@ -17,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String inputdata = '';
-  int _selectedIndex = 0;
   bool isChecked = false;
   bool isFabVisible = true;
 
@@ -44,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           child: FloatingActionButton(
+            heroTag: "btn1",
             elevation: 0,
             onPressed: () {
               Navigator.of(context).push(
@@ -52,7 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            child: Image.asset('assets/images/icon_add.png'),
+            child: Icon(
+              Icons.add,
+              size: 40,
+            ),
             backgroundColor: Color(0xff18DAA3),
           ),
         ),
@@ -88,20 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }),
       ),
     );
-  }
-
-  List<Widget> getLayout() {
-    return <Widget>[
-      ToDoScreen(),
-      NoteScreen(),
-      Container(),
-    ];
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   Widget getListItem(Task task) {

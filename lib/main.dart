@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_application/data/note.dart';
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
 import 'data/enum_task.dart';
@@ -9,9 +10,11 @@ import 'data/task_type.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TaskAdapter());
+  Hive.registerAdapter(NoteAdapter());
   Hive.registerAdapter(TaskTypeAdapter());
   Hive.registerAdapter(taskTypeEnumAdapter());
   await Hive.openBox<Task>('taskBox');
+  await Hive.openBox<Note>('NoteBox');
   runApp(MainScreen());
 }
 

@@ -182,7 +182,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                   style: TextStyle(fontSize: 18),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff18DAA3),
+                  backgroundColor: Color(0xff18DAA3),
                   minimumSize: Size(200, 40),
                 ),
               )
@@ -195,10 +195,11 @@ class _addTsakWidgetState extends State<addTsakWidget> {
 
   addTask(String task, String subTask) {
     var allTask = Task(
-        title: task,
-        subTitle: subTask,
-        time: _time!,
-        taskType: getTaskTypeList()[SelectedType]);
+      title: task,
+      subTitle: subTask,
+      time: _time!,
+      taskType: getTaskTypeList()[SelectedType],
+    );
     box.add(allTask);
     //print(box.get(1)!.title);
   }
