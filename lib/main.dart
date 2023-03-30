@@ -44,14 +44,6 @@ class _MainScreenState extends State<MainScreen> {
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          primary: true,
-          title: Text(
-            'برنامه بده',
-            style: TextStyle(fontSize: 20, fontFamily: 'SM'),
-          ),
-          backgroundColor: Color(0xff18DAA3),
-        ),
         body: IndexedStack(
           index: _selectedIndex,
           children: getLayout(),

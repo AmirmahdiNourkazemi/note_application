@@ -25,6 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        primary: true,
+        title: Text(
+          'برنامه بده',
+          style: TextStyle(fontSize: 20, fontFamily: 'SM'),
+        ),
+        backgroundColor: Color(0xff18DAA3),
+      ),
       backgroundColor: Color.fromARGB(250, 214, 213, 213),
       body: ToDoScreen(),
       floatingActionButton: Visibility(

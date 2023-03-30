@@ -15,14 +15,45 @@ class NoteScreen extends StatefulWidget {
 }
 
 class _NoteScreenState extends State<NoteScreen> {
+  Note? note;
   var taskBox = Hive.box<Note>('NoteBox');
   bool isFabVisible = true;
+  bool isSelected = true;
+  bool isLongPress = false;
   @override
   Widget build(BuildContext context) {
     setState(() {
       var taskBox = Hive.box<Note>('NoteBox');
     });
     return Scaffold(
+      appBar: AppBar(
+        primary: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Visibility(
+              visible: isLongPress,
+              child: Row(
+                children: [
+                  Text(
+                    'حذف کن',
+                    style: TextStyle(fontFamily: 'SM', fontSize: 18),
+                  ),
+                  Icon(
+                    Icons.delete,
+                    size: 35,
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+        title: Text(
+          'برنامه بده',
+          style: TextStyle(fontSize: 20, fontFamily: 'SM'),
+        ),
+        backgroundColor: Color(0xff18DAA3),
+      ),
       backgroundColor: Color.fromARGB(250, 214, 213, 213),
       body: CustomScrollView(
         slivers: [
@@ -33,29 +64,47 @@ class _NoteScreenState extends State<NoteScreen> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
-                border: Border.all(
-                  color: Colors.black,
-                ),
               ),
             ),
           ),
           ValueListenableBuilder(
             valueListenable: taskBox.listenable(),
             builder: (context, value, child) {
-              return SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return GestureDetector(
-                        onLongPress: () {
-                          _showContextMenu(context);
+              return SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isSelected = !isSelected;
+                          });
                         },
-                        child:
-                            NoteWidget(note: taskBox.values.toList()[index]));
-                  },
-                  childCount: taskBox.values.length,
+                        onLongPress: () {
+                          //isLongPress = true;
+                          setState(() {
+                            isLongPress = !isLongPress;
+                          });
+                          //   _showContextMenu(
+                          //       context, taskBox.values.toList()[index]);
+                        },
+                        child: //getNote(taskBox.values.toList()[index], index)
+                            getListItem(taskBox.values.toList()[index], index),
+                        // child: NoteWidget(
+                        //   longPress: isLongPress,
+                        //   note: taskBox.values.toList()[index],
+                        // ),
+                      );
+                    },
+                    childCount: taskBox.values.length,
+                  ),
                 ),
               );
             },
@@ -98,14 +147,56 @@ class _NoteScreenState extends State<NoteScreen> {
     );
   }
 
-  void _showContextMenu(BuildContext context) async {
+  Widget getNote(Note note, index) {
+    return GestureDetector(
+      child: Expanded(
+        child: Stack(
+          children: [
+            NoteWidget(
+              note: taskBox.values.toList()[index],
+              longPress: isLongPress,
+            ),
+            Checkbox(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
+              ),
+              activeColor: Color(0xff18DAA3),
+              value: isSelected,
+              onChanged: (value) {
+                setState(() {
+                  isSelected = !isSelected;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getListItem(Note note, index) {
+    return Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        note.delete();
+      },
+      child: NoteWidget(
+        note: taskBox.values.toList()[index],
+        longPress: isLongPress,
+      ),
+    );
+  }
+
+  void _showContextMenu(BuildContext context, Note note) async {
     final RenderObject? overlay =
         Overlay.of(context)?.context.findRenderObject();
 
     final result =
         await showMenu(context: context, position: RelativeRect.fill, items: [
       const PopupMenuItem(
-        child: Text('Add Me'),
+        child: Text('delete'),
         value: "fav",
       ),
       const PopupMenuItem(
@@ -115,8 +206,8 @@ class _NoteScreenState extends State<NoteScreen> {
     ]);
     // perform action on selected menu item
     switch (result) {
-      case 'fav':
-        print("fav");
+      case 'delete':
+        note.delete();
         break;
       case 'close':
         print('close');

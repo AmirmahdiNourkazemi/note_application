@@ -3,31 +3,74 @@ import 'package:note_application/data/note.dart';
 
 class NoteWidget extends StatefulWidget {
   Note note;
-  NoteWidget({super.key, required this.note});
+  bool longPress;
+  NoteWidget({super.key, required this.note, required this.longPress});
 
   @override
   State<NoteWidget> createState() => _NoteWidgetState();
 }
 
 class _NoteWidgetState extends State<NoteWidget> {
+  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isSelected = !isSelected;
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        width: 100,
+        height: 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+          border: Border.all(
+            color: Colors.black,
+            width: 0.5,
+          ),
         ),
-        border: Border.all(color: Colors.black, width: 0.5),
-      ),
-      alignment: Alignment.center,
-      child: Column(
-        children: [
-          Text(widget.note.subject),
-          Text(widget.note.explane),
-        ],
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Visibility(
+              visible: widget.longPress,
+              child: Transform.scale(
+                scale: 1.2,
+                child: Checkbox(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                  ),
+                  activeColor: Color(0xff18DAA3),
+                  value: isSelected,
+                  onChanged: (value) {
+                    setState(() {
+                      isSelected = !isSelected;
+                    });
+                  },
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                widget.note.subject,
+                style: TextStyle(
+                  fontFamily: 'SM',
+                  fontSize: 20,
+                ),
+                maxLines: 1,
+              ),
+            ),
+            //Text(widget.note.explane),
+          ],
+        ),
       ),
     );
   }

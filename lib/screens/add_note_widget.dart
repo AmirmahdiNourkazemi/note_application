@@ -135,7 +135,7 @@ class _AddNoteState extends State<AddNote> {
                 Navigator.pop(context);
               },
               child: Text(
-                'اضافه کردن تسک',
+                'اضافه کردن نوت',
                 style: TextStyle(fontSize: 18),
               ),
               style: ElevatedButton.styleFrom(
@@ -155,7 +155,5 @@ class _AddNoteState extends State<AddNote> {
       subject: subTask,
     );
     box.add(allNote);
-    //print(box.get(0)!.subject);
-    //print(box.get(1)!.title);
   }
 }
