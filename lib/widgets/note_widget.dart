@@ -60,11 +60,16 @@ class _NoteWidgetState extends State<NoteWidget> {
             ),
             Center(
               child: Text(
-                widget.note.subject,
+                widget.note.explane
+                    .replaceAll('<', '')
+                    .replaceAll('>', '')
+                    .replaceAll('insert', '')
+                    .replaceAll('+', ''),
                 style: TextStyle(
                   fontFamily: 'SM',
                   fontSize: 20,
                 ),
+                textAlign: TextAlign.center,
                 maxLines: 1,
               ),
             ),

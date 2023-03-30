@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:hive/hive.dart';
 import 'package:note_application/data/note.dart';
-
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import '../data/task.dart';
 
 class AddNote extends StatefulWidget {
@@ -17,8 +18,8 @@ class _AddNoteState extends State<AddNote> {
   int SelectedType = 0;
 
   final TextEditingController controllerTaskTitle = TextEditingController();
-  final TextEditingController controllerSubTaskTitle = TextEditingController();
-
+  //final TextEditingController controllerSubTaskTitle = TextEditingController();
+  QuillController controllerSubTaskTitle = QuillController.basic();
   final box = Hive.box<Note>('NoteBox');
 
   @override
@@ -82,46 +83,70 @@ class _AddNoteState extends State<AddNote> {
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 44),
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                // child: Column(
-                //   children: [
-                //     ZefyrToolbar.basic(controller: _controller),
-                //     Expanded(
-                //       child: ZefyrEditor(
-                //         controller: _controller,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                child: TextField(
-                  controller: controllerSubTaskTitle,
-                  maxLines: 3,
-                  focusNode: negahban2,
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    labelText: 'متن',
-                    labelStyle: TextStyle(
-                      fontSize: 20,
-                      color: negahban2.hasFocus
-                          ? Color(0xff18DAA3)
-                          : Color.fromARGB(255, 46, 45, 45),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      borderSide:
-                          BorderSide(color: Color(0xffC5C5C5), width: 3.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Color(0xff18DAA3),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 44),
+            //   child: Directionality(
+            //     textDirection: TextDirection.rtl,
+            //     // child: Column(
+            //     //   children: [
+            //     //     ZefyrToolbar.basic(controller: _controller),
+            //     //     Expanded(
+            //     //       child: ZefyrEditor(
+            //     //         controller: _controller,
+            //     //       ),
+            //     //     ),
+            //     //   ],
+            //     // ),
+
+            //     child: TextField(
+            //       controller: controllerSubTaskTitle,
+            //       maxLines: 3,
+            //       focusNode: negahban2,
+            //       decoration: InputDecoration(
+            //         contentPadding:
+            //             EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            //         labelText: 'متن',
+            //         labelStyle: TextStyle(
+            //           fontSize: 20,
+            //           color: negahban2.hasFocus
+            //               ? Color(0xff18DAA3)
+            //               : Color.fromARGB(255, 46, 45, 45),
+            //         ),
+            //         enabledBorder: OutlineInputBorder(
+            //           borderRadius: BorderRadius.all(Radius.circular(15)),
+            //           borderSide:
+            //               BorderSide(color: Color(0xffC5C5C5), width: 3.0),
+            //         ),
+            //         focusedBorder: OutlineInputBorder(
+            //           borderRadius: BorderRadius.all(Radius.circular(15)),
+            //           borderSide: BorderSide(
+            //             width: 3,
+            //             color: Color(0xff18DAA3),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Container(
+                  height: 650,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xffC5C5C5), width: 3.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Column(
+                    children: [
+                      QuillToolbar.basic(controller: controllerSubTaskTitle),
+                      Container(
+                        child: QuillEditor.basic(
+                          controller: controllerSubTaskTitle,
+                          readOnly: false, // true for view only mode
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),
@@ -130,8 +155,9 @@ class _AddNoteState extends State<AddNote> {
             ElevatedButton(
               onPressed: () {
                 String task1 = controllerTaskTitle.text;
-                String task2 = controllerSubTaskTitle.text;
-                addNote(task1, task2);
+                String task2 = controllerSubTaskTitle.document.toDelta().toString();
+                ;
+                addNote(task2, task1);
                 Navigator.pop(context);
               },
               child: Text(
