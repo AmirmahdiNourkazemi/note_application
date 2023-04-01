@@ -1,8 +1,13 @@
+import 'dart:async';
+
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/data/note.dart';
+
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
+import 'package:page_transition/page_transition.dart';
 import 'data/enum_task.dart';
 import 'data/task.dart';
 import 'data/task_type.dart';
@@ -17,7 +22,139 @@ void main() async {
   await Hive.openBox<Note>('NoteBox');
   visualDensity:
   VisualDensity.adaptivePlatformDensity;
-  runApp(MainScreen());
+  runApp(MaterialApp(home: SplashScreen()));
+}
+
+class AnimationStart extends StatefulWidget {
+  const AnimationStart({Key? key}) : super(key: key);
+
+  @override
+  State<AnimationStart> createState() => _AnimationStartState();
+}
+
+class _AnimationStartState extends State<AnimationStart> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      home: Scaffold(
+        body: AnimatedSplashScreen(
+          splash: Image.asset(
+            'assets/images/notebook.jpg',
+          ),
+          duration: 3000,
+          splashIconSize: 300,
+          pageTransitionType: PageTransitionType.fade,
+          animationDuration: Duration(seconds: 1),
+          splashTransition: SplashTransition.slideTransition,
+          backgroundColor: Color(0xff18DAA3),
+          nextScreen: MainScreen(),
+        ),
+      ),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController? animationController;
+  Animation<double>? animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    animationController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    animation = Tween<double>(begin: 0, end: 1).animate(animationController!);
+
+    Timer(Duration(seconds: 3), () {
+      Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
+        return MainScreen();
+      })));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(color: Color(0xff18DAA3)),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        FadeTransition(
+                          opacity: animation!,
+                          child: Icon(
+                            Icons.lightbulb_outline,
+                            color: Colors.white,
+                            size: 100.0,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                        ),
+                        Text(
+                          "Write Your Note",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30.0),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(
+                        backgroundColor: Color(0xff18DAA3),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0),
+                      ),
+                      Text(
+                        "Loading...",
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.white),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class MainScreen extends StatefulWidget {
