@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/screens/add_note_widget.dart';
+import 'package:note_application/screens/edit_note_screen.dart';
 import 'package:note_application/widgets/note_widget.dart';
 
 import '../screens/add_task_widget.dart';
@@ -74,10 +75,10 @@ class _NoteScreenState extends State<NoteScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 sliver: SliverGrid(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    
+                    childAspectRatio: 3,
+                    crossAxisCount: 1,
+                    mainAxisSpacing: 0,
+                    crossAxisSpacing: 0,
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
@@ -85,6 +86,7 @@ class _NoteScreenState extends State<NoteScreen> {
                         onTap: () {
                           setState(() {
                             isSelected = !isSelected;
+                            EditNote(index, note: note!);
                           });
                         },
                         onLongPress: () {
@@ -97,10 +99,6 @@ class _NoteScreenState extends State<NoteScreen> {
                         },
                         child: //getNote(taskBox.values.toList()[index], index)
                             getListItem(taskBox.values.toList()[index], index),
-                        // child: NoteWidget(
-                        //   longPress: isLongPress,
-                        //   note: taskBox.values.toList()[index],
-                        // ),
                       );
                     },
                     childCount: taskBox.values.length,
@@ -180,13 +178,65 @@ class _NoteScreenState extends State<NoteScreen> {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) {
-        note.delete();
+        if (direction == DismissDirection.endToStart) {
+          setState(() {
+            note.delete();
+          });
+        } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => EditNote(
+                index,
+                note: note,
+              ),
+            ),
+          );
+        }
       },
+      background: Container(
+        height: 100,
+        color: Color(0xff18DAA3),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Icon(Icons.edit, color: Colors.white, size: 40),
+            ),
+          ],
+        ),
+      ),
+      secondaryBackground: Container(
+        color: Colors.red,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+                size: 40,
+              ),
+            ),
+          ],
+        ),
+      ),
       child: NoteWidget(
         note: taskBox.values.toList()[index],
         longPress: isLongPress,
       ),
     );
+    // return Dismissible(
+    //   key: UniqueKey(),
+    //   onDismissed: (direction) {
+    //     note.delete();
+    //   },
+    //   child: NoteWidget(
+    //     note: taskBox.values.toList()[index],
+    //     longPress: isLongPress,
+    //   ),
+    // );
   }
 
   void _showContextMenu(BuildContext context, Note note) async {

@@ -159,7 +159,7 @@ class _SplashScreenState extends State<SplashScreen>
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
-
+  
   @override
   State<MainScreen> createState() => _MainScreenState();
 }

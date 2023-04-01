@@ -22,8 +22,8 @@ class _NoteWidgetState extends State<NoteWidget> {
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        width: 100,
-        height: 100,
+        width: 500,
+        height: 150,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(

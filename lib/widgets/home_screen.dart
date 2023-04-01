@@ -7,6 +7,7 @@ import 'package:note_application/widgets/task_widget.dart';
 
 import '../data/task.dart';
 import '../screens/add_task_widget.dart';
+import '../screens/edit_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -105,9 +106,76 @@ class _HomeScreenState extends State<HomeScreen> {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) {
-        task.delete();
+        if (direction == DismissDirection.endToStart) {
+          setState(() {
+            task.delete();
+          });
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => editTsakWidget(task: task)));
+        }
       },
+      background: Container(
+        color: Color(0xff18DAA3),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Icon(Icons.edit, color: Colors.white, size: 40),
+            ),
+          ],
+        ),
+      ),
+      secondaryBackground: Container(
+        color: Colors.red,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+                size: 40,
+              ),
+            ),
+          ],
+        ),
+      ),
       child: TaskWidget(task: task),
     );
+    // return Dismissible(
+    //   key: UniqueKey(),
+    //   onDismissed: (LongPressEndDetails) {
+    //     task.delete();
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(
+    //         content: Text('${task.title} removed'),
+    //       ),
+    //     );
+    //   },
+    //   background: Container(
+    //     color: Colors.red,
+    //     child: Padding(
+    //       padding: EdgeInsets.symmetric(horizontal: 30),
+    //       child: Row(
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //         children: [
+    //           Icon(
+    //             Icons.edit,
+    //             size: 40,
+    //           ),
+    //           Icon(
+    //             Icons.delete,
+    //             size: 40,
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    //   child: TaskWidget(task: task),
+    // );
   }
 }
