@@ -153,7 +153,7 @@ class _EditNoteState extends State<EditNote> {
                       .insert(widget.index, widget.note.explane)
                       .toString();
 
-                  addNote(task2, task1);
+                  addNote(task1, task2);
                   Navigator.pop(context);
                 },
                 child: Text(

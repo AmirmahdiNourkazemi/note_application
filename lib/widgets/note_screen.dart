@@ -151,6 +151,7 @@ class _NoteScreenState extends State<NoteScreen> {
         child: Stack(
           children: [
             NoteWidget(
+              index: index,
               note: taskBox.values.toList()[index],
               longPress: isLongPress,
             ),
@@ -182,7 +183,11 @@ class _NoteScreenState extends State<NoteScreen> {
           setState(() {
             note.delete();
           });
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("${note.subject} deleted")));
         } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("${note.subject} go to edit screen")));
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => EditNote(
@@ -223,6 +228,7 @@ class _NoteScreenState extends State<NoteScreen> {
         ),
       ),
       child: NoteWidget(
+        index: index,
         note: taskBox.values.toList()[index],
         longPress: isLongPress,
       ),
