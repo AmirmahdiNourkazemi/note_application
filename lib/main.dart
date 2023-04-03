@@ -159,28 +159,32 @@ class _SplashScreenState extends State<SplashScreen>
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
-  
+
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  bool isDarkModeEnable = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'SM',
-        textTheme: TextTheme(
-          headline4: TextStyle(
-            fontFamily: 'SM',
-            fontSize: 18,
-            color: Colors.white,
-          ),
-        ),
-      ),
+      theme: isDarkModeEnable ? darkTheme : lightTheme,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          //backgroundColor: Color(0xff18DAA3),
+          actions: [
+            Switch(
+                value: isDarkModeEnable,
+                onChanged: (value) {
+                  setState(() {
+                    isDarkModeEnable = !isDarkModeEnable;
+                  });
+                })
+          ],
+        ),
         body: IndexedStack(
           index: _selectedIndex,
           children: getLayout(),
@@ -188,6 +192,7 @@ class _MainScreenState extends State<MainScreen> {
         bottomNavigationBar: SizedBox(
           height: 91,
           child: BottomNavigationBar(
+            elevation: 1,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.check_box),
@@ -214,7 +219,7 @@ class _MainScreenState extends State<MainScreen> {
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: Colors.white,
-            backgroundColor: Color(0xff18DAA3),
+            // backgroundColor: Color(0xff18DAA3),
             onTap: _onItemTapped,
           ),
         ),
@@ -236,3 +241,39 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 }
+
+final darkTheme = ThemeData(
+  fontFamily: 'SM',
+  textTheme: TextTheme(
+    headline4: TextStyle(
+      fontFamily: 'SM',
+      fontSize: 18,
+      //color: Colors.white,
+    ),
+  ),
+  //brightness: Brightness.dark,
+  primarySwatch: Colors.blue,
+  appBarTheme: AppBarTheme(backgroundColor: Color.fromARGB(255, 3, 116, 5)),
+  accentColor: Colors.white,
+  scaffoldBackgroundColor: Color.fromARGB(255, 2, 71, 3),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Color.fromARGB(255, 3, 116, 5),
+  ),
+);
+final lightTheme = ThemeData(
+  fontFamily: 'SM',
+  textTheme: TextTheme(
+    headline4: TextStyle(
+      fontFamily: 'SM',
+      fontSize: 18,
+      //color: Colors.white,
+    ),
+  ),
+  //brightness: Brightness.light,
+  bottomNavigationBarTheme:
+      BottomNavigationBarThemeData(backgroundColor: Color(0xff18DAA3)),
+  appBarTheme: AppBarTheme(backgroundColor: Color(0xff18DAA3)),
+  primarySwatch: Colors.blue,
+  accentColor: Colors.black,
+  scaffoldBackgroundColor: Color.fromARGB(250, 214, 213, 213),
+);
