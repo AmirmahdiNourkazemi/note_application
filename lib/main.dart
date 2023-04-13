@@ -182,6 +182,7 @@ class _MainScreenState extends State<MainScreen> {
           //backgroundColor: Color(0xff18DAA3),
           actions: [
             Switch(
+                activeColor: Colors.grey,
                 value: isDarkModeEnable,
                 onChanged: (value) {
                   setState(() {

@@ -63,7 +63,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         fontSize: 20,
                         color: negahban1.hasFocus
                             ? Color(0xff18DAA3)
-                            : Color.fromARGB(255, 46, 45, 45),
+                            : Colors.grey,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -76,7 +76,9 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         ),
                         borderSide: BorderSide(
                           width: 3,
-                          color: Color(0xff18DAA3),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(255, 94, 92, 92)
+                              : Color(0xff18DAA3),
                         ),
                       ),
                     ),
@@ -102,7 +104,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         fontSize: 20,
                         color: negahban2.hasFocus
                             ? Color(0xff18DAA3)
-                            : Color.fromARGB(255, 46, 45, 45),
+                            : Colors.grey,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -113,7 +115,9 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         borderSide: BorderSide(
                           width: 3,
-                          color: Color(0xff18DAA3),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(255, 94, 92, 92)
+                              : Color(0xff18DAA3),
                         ),
                       ),
                     ),
@@ -128,16 +132,22 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                   positiveButtonText: 'انتخاب زمان',
                   elevation: 2,
                   titleStyle: TextStyle(
-                    color: Color(0xff18DAA3),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Color(0xff18DAA3),
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                   negativeButtonStyle: TextStyle(
-                      color: Color(0xff18DAA3),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Color(0xff18DAA3),
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
                   positiveButtonStyle: TextStyle(
-                      color: Color(0xff18DAA3),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Color(0xff18DAA3),
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
                   onPositivePressed: (context, time) {
@@ -170,20 +180,45 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                 ),
               ),
               Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  String task1 = controllerTaskTitle.text;
-                  String task2 = controllerSubTaskTitle.text;
-                  addTask(task1, task2);
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'اضافه کردن تسک',
-                  style: TextStyle(fontSize: 18),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff18DAA3),
-                  minimumSize: Size(200, 40),
+              Padding(
+                padding: const EdgeInsets.only(right: 80),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: 35,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        String task1 = controllerTaskTitle.text;
+                        String task2 = controllerSubTaskTitle.text;
+                        addTask(task1, task2);
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'اضافه کردن تسک',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Color(0xff18DAA3)
+                              : Colors.black,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Color.fromARGB(255, 94, 92, 92)
+                                : Color(0xff18DAA3),
+                        minimumSize: Size(200, 40),
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],

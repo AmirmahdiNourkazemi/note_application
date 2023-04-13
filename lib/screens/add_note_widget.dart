@@ -60,12 +60,15 @@ class _AddNoteState extends State<AddNote> {
                       fontSize: 20,
                       color: negahban1.hasFocus
                           ? Color(0xff18DAA3)
-                          : Color.fromARGB(255, 46, 45, 45),
+                          : Color.fromARGB(255, 224, 223, 223),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      borderSide:
-                          BorderSide(color: Color(0xffC5C5C5), width: 3.0),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(255, 94, 92, 92)
+                              : Color(0xff18DAA3),
+                          width: 3.0),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -73,7 +76,9 @@ class _AddNoteState extends State<AddNote> {
                       ),
                       borderSide: BorderSide(
                         width: 3,
-                        color: Color(0xff18DAA3),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Color(0xff18DAA3)
+                            : Colors.white,
                       ),
                     ),
                   ),
@@ -135,8 +140,15 @@ class _AddNoteState extends State<AddNote> {
                 child: Container(
                   height: 650,
                   decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffC5C5C5), width: 3.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                    border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Color(0xff18DAA3)
+                            : Colors.white,
+                        width: 3.0),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
                   child: Column(
                     children: [
                       QuillToolbar.basic(controller: controllerSubTaskTitle),
@@ -152,21 +164,47 @@ class _AddNoteState extends State<AddNote> {
               ),
             ),
             Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                String task1 = controllerTaskTitle.text;
-                String task2 = controllerSubTaskTitle.document.toDelta().toString();
-                ;
-                addNote(task2, task1);
-                Navigator.pop(context);
-              },
-              child: Text(
-                'اضافه کردن نوت',
-                style: TextStyle(fontSize: 18),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xff18DAA3),
-                minimumSize: Size(200, 40),
+            Padding(
+              padding: const EdgeInsets.only(right: 85),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back,
+                      size: 35,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      String task1 = controllerTaskTitle.text;
+                      String task2 =
+                          controllerSubTaskTitle.document.toDelta().toString();
+                      ;
+                      addNote(task2, task1);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'اضافه کردن نوت',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(255, 94, 92, 92)
+                              : Colors.white,
+                      minimumSize: Size(200, 40),
+                    ),
+                  ),
+                ],
               ),
             )
           ],
