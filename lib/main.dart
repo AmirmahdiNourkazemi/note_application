@@ -78,9 +78,13 @@ class _SplashScreenState extends State<SplashScreen>
     animation = Tween<double>(begin: 0, end: 1).animate(animationController!);
 
     Timer(Duration(seconds: 3), () {
-      Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-        return MainScreen();
-      })));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: ((context) {
+            return MainScreen();
+          }),
+        ),
+      );
     });
   }
 
@@ -141,9 +145,10 @@ class _SplashScreenState extends State<SplashScreen>
                         softWrap: true,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            color: Colors.white),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
                       )
                     ],
                   ),
@@ -251,13 +256,18 @@ final darkTheme = ThemeData(
       //color: Colors.white,
     ),
   ),
-  //brightness: Brightness.dark,
+  brightness: Brightness.dark,
   primarySwatch: Colors.blue,
-  appBarTheme: AppBarTheme(backgroundColor: Color.fromARGB(255, 3, 116, 5)),
+  appBarTheme: AppBarTheme(
+      backgroundColor: Color(0xff424242) //Color.fromARGB(255, 3, 116, 5),
+      ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: Color.fromARGB(255, 94, 92, 92),
+  ),
   accentColor: Colors.white,
-  scaffoldBackgroundColor: Color.fromARGB(255, 2, 71, 3),
+  scaffoldBackgroundColor: Color(0xff252525), // Color.fromARGB(255, 2, 74, 3),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Color.fromARGB(255, 3, 116, 5),
+    backgroundColor: Color(0xff212121),
   ),
 );
 final lightTheme = ThemeData(
@@ -273,6 +283,9 @@ final lightTheme = ThemeData(
   bottomNavigationBarTheme:
       BottomNavigationBarThemeData(backgroundColor: Color(0xff18DAA3)),
   appBarTheme: AppBarTheme(backgroundColor: Color(0xff18DAA3)),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: Color(0xff18DAA3),
+  ),
   primarySwatch: Colors.blue,
   accentColor: Colors.black,
   scaffoldBackgroundColor: Color.fromARGB(250, 214, 213, 213),

@@ -40,7 +40,9 @@ class _TaskWidgetState extends State<TaskWidget> {
           borderRadius: BorderRadius.all(
             Radius.circular(16),
           ),
-          color: Color(0XFFFFFFFFF),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Color.fromARGB(255, 94, 92, 92)
+              : Colors.white,
         ),
         child: Padding(
           padding: EdgeInsets.all(12.0),
@@ -197,5 +199,4 @@ class _TaskWidgetState extends State<TaskWidget> {
     } else
       return '${time.minute}';
   }
-
 }

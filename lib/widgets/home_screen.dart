@@ -26,15 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        primary: true,
-        title: Text(
-          'برنامه بده',
-          style: TextStyle(fontSize: 20, fontFamily: 'SM'),
-        ),
-        backgroundColor: Color(0xff18DAA3),
-      ),
-      backgroundColor: Color.fromARGB(250, 214, 213, 213),
+      //backgroundColor: Color.fromARGB(250, 214, 213, 213),
       body: ToDoScreen(),
       floatingActionButton: Visibility(
         visible: isFabVisible,
@@ -44,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
             boxShadow: [
               BoxShadow(
                 blurStyle: BlurStyle.normal,
-                color: Color.fromARGB(255, 15, 114, 86),
+                color: Color.fromARGB(255, 97, 107, 105),
                 spreadRadius: 0,
                 blurRadius: 10,
                 offset: Offset(0, 4),
@@ -64,8 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Icon(
               Icons.add,
               size: 40,
+              color: Colors.white,
             ),
-            backgroundColor: Color(0xff18DAA3),
+            //backgroundColor: Color(0xff18DAA3),
           ),
         ),
       ),
@@ -111,8 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
             task.delete();
           });
         } else {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => editTsakWidget(task: task)));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => editTsakWidget(task: task),
+            ),
+          );
         }
       },
       background: Container(

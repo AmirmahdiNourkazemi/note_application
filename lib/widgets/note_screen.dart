@@ -27,35 +27,7 @@ class _NoteScreenState extends State<NoteScreen> {
       var taskBox = Hive.box<Note>('NoteBox');
     });
     return Scaffold(
-      appBar: AppBar(
-        primary: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Visibility(
-              visible: isLongPress,
-              child: Row(
-                children: [
-                  Text(
-                    'حذف کن',
-                    style: TextStyle(fontFamily: 'SM', fontSize: 18),
-                  ),
-                  Icon(
-                    Icons.delete,
-                    size: 35,
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-        title: Text(
-          'برنامه بده',
-          style: TextStyle(fontSize: 20, fontFamily: 'SM'),
-        ),
-        backgroundColor: Color(0xff18DAA3),
-      ),
-      backgroundColor: Color.fromARGB(250, 214, 213, 213),
+      //backgroundColor: Color.fromARGB(250, 214, 213, 213),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -117,7 +89,7 @@ class _NoteScreenState extends State<NoteScreen> {
             boxShadow: [
               BoxShadow(
                 blurStyle: BlurStyle.normal,
-                color: Color.fromARGB(255, 15, 114, 86),
+                color: Color.fromARGB(255, 85, 85, 85),
                 spreadRadius: 0,
                 blurRadius: 10,
                 offset: Offset(0, 4),
@@ -137,8 +109,9 @@ class _NoteScreenState extends State<NoteScreen> {
             child: Icon(
               Icons.add,
               size: 40,
+              color: Colors.white,
             ),
-            backgroundColor: Color(0xff18DAA3),
+            //backgroundColor: Color(0xff18DAA3),
           ),
         ),
       ),
