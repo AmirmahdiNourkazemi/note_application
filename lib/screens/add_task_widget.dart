@@ -40,6 +40,9 @@ class _addTsakWidgetState extends State<addTsakWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Color(0xff424242),
       body: SafeArea(
         child: Center(
           child: Column(

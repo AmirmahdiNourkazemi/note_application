@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/data/note.dart';
+import 'package:note_application/screens/setting_screen.dart';
 
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
@@ -182,13 +185,18 @@ class _MainScreenState extends State<MainScreen> {
           //backgroundColor: Color(0xff18DAA3),
           actions: [
             Switch(
-                activeColor: Colors.grey,
-                value: isDarkModeEnable,
-                onChanged: (value) {
-                  setState(() {
+              activeColor: Colors.white,
+              value: isDarkModeEnable,
+              onChanged: (value) {
+                setState(
+                  () {
                     isDarkModeEnable = !isDarkModeEnable;
-                  });
-                })
+                  },
+                );
+              },
+              activeThumbImage: AssetImage('assets/images/moon.png'),
+              inactiveThumbImage: AssetImage('assets/images/sun.png'),
+            )
           ],
         ),
         body: IndexedStack(
@@ -237,7 +245,7 @@ class _MainScreenState extends State<MainScreen> {
     return <Widget>[
       HomeScreen(),
       NoteScreen(),
-      Container(),
+      SettingScreen(isDarkModeEnable),
     ];
   }
 

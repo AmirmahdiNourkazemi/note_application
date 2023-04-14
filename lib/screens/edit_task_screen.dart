@@ -45,6 +45,9 @@ class _editTsakWidgetState extends State<editTsakWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Color(0xff424242),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -67,8 +70,10 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                       labelStyle: TextStyle(
                         fontSize: 25,
                         color: negahban1.hasFocus
-                            ? Color(0xff18DAA3)
-                            : Color.fromARGB(255, 46, 45, 45),
+                            ? Theme.of(context).brightness == Brightness.dark
+                                ? Color(0xff18DAA3)
+                                : Colors.black
+                            : Color(0xff18DAA3),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -106,8 +111,10 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                       labelStyle: TextStyle(
                         fontSize: 25,
                         color: negahban2.hasFocus
-                            ? Color(0xff18DAA3)
-                            : Color.fromARGB(255, 46, 45, 45),
+                            ? Theme.of(context).brightness == Brightness.dark
+                                ? Color(0xff18DAA3)
+                                : Colors.black
+                            : Color(0xff18DAA3),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -138,13 +145,15 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                     fontWeight: FontWeight.bold,
                   ),
                   negativeButtonStyle: TextStyle(
-                      color: Color(0xff18DAA3),
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
+                    color: Color(0xff18DAA3),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                   positiveButtonStyle: TextStyle(
-                      color: Color(0xff18DAA3),
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
+                    color: Color(0xff18DAA3),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                   onPositivePressed: (context, time) {
                     _time = time;
                   },
