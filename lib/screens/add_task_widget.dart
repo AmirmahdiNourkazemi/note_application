@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../data/task.dart';
 import '../notification/notification.dart';
 import '../utility/utility.dart';
+import '../widgets/animation_sequience.dart';
 import '../widgets/task_type_item.dart';
 
 DateTime scheduleTime = DateTime.now();
@@ -141,8 +142,13 @@ class _addTsakWidgetState extends State<addTsakWidget> {
               //   onPressed: () => _selectTime(context),
               // ),
               // NotificationScreen()
+              SizedBox(
+                height: 50,
+              ),
               DatePickerTxt(),
-              ScheduleBtn(),
+              SizedBox(
+                height: 40,
+              ),
               // Directionality(
               //   textDirection: TextDirection.rtl,
               //   child: CustomHourPicker(
@@ -179,6 +185,13 @@ class _addTsakWidgetState extends State<addTsakWidget> {
               //   ),
               // ),
 
+              Text(
+                'عکسی که دوس داری رو انتخاب کن',
+                style: TextStyle(fontFamily: 'SM', fontSize: 18),
+              ),
+              SizedBox(
+                height: 25,
+              ),
               Container(
                 height: 200,
                 child: ListView.builder(
@@ -239,6 +252,11 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                                 ? Color.fromARGB(255, 94, 92, 92)
                                 : Color(0xff18DAA3),
                         minimumSize: Size(200, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       ),
                     ),
                   ],
@@ -275,18 +293,65 @@ class DatePickerTxt extends StatefulWidget {
 class _DatePickerTxtState extends State<DatePickerTxt> {
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        // primary: Colors.blue,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color.fromARGB(255, 94, 92, 92)
+            : Color(0xff18DAA3),
+        minimumSize: Size(200, 40),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+      ),
       onPressed: () {
         DatePicker.showDateTimePicker(
           context,
           showTitleActions: true,
-          onChanged: (date) => scheduleTime = date,
-          onConfirm: (date) {},
+          onChanged: (date) {
+            scheduleTime = date;
+            NotificationService().scheduleNotification(
+              title: 'Scheduled Notification',
+              body: '$scheduleTime',
+              scheduledNotificationDateTime: scheduleTime,
+            );
+          },
+          onConfirm: (date) {
+            final snackBar = SnackBar(
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Color.fromARGB(255, 94, 92, 92)
+                  : Colors.white,
+              content: Text(
+                'ساعت با موفقیت تنظیم شد',
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                  fontFamily: 'SM',
+                ),
+              ),
+              action: SnackBarAction(
+                textColor: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
+                label: 'حله',
+                onPressed: () {
+                  // Some code to undo the change.
+                },
+              ),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
         );
       },
       child: const Text(
-        'Select Date Time',
-        style: TextStyle(color: Colors.blue),
+        'ساعت رو انتخاب کن',
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
