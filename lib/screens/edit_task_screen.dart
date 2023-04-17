@@ -132,34 +132,34 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                   ),
                 ),
               ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: CustomHourPicker(
-                  title: 'زمان تسک را مشخص کن',
-                  negativeButtonText: 'حذف کن',
-                  positiveButtonText: 'انتخاب زمان',
-                  elevation: 2,
-                  titleStyle: TextStyle(
-                    color: Color(0xff18DAA3),
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  negativeButtonStyle: TextStyle(
-                    color: Color(0xff18DAA3),
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  positiveButtonStyle: TextStyle(
-                    color: Color(0xff18DAA3),
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  onPositivePressed: (context, time) {
-                    _time = time;
-                  },
-                  onNegativePressed: (context) {},
-                ),
-              ),
+              // Directionality(
+              //   textDirection: TextDirection.rtl,
+              //   child: CustomHourPicker(
+              //     title: 'زمان تسک را مشخص کن',
+              //     negativeButtonText: 'حذف کن',
+              //     positiveButtonText: 'انتخاب زمان',
+              //     elevation: 2,
+              //     titleStyle: TextStyle(
+              //       color: Color(0xff18DAA3),
+              //       fontSize: 22,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //     negativeButtonStyle: TextStyle(
+              //       color: Color(0xff18DAA3),
+              //       fontSize: 22,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //     positiveButtonStyle: TextStyle(
+              //       color: Color(0xff18DAA3),
+              //       fontSize: 22,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //     onPositivePressed: (context, time) {
+              //       _time = time;
+              //     },
+              //     onNegativePressed: (context) {},
+              //   ),
+              // ),
               Container(
                 height: 200,
                 child: ListView.builder(

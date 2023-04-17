@@ -4,6 +4,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/screens/setting_screen.dart';
@@ -14,6 +15,11 @@ import 'package:page_transition/page_transition.dart';
 import 'data/enum_task.dart';
 import 'data/task.dart';
 import 'data/task_type.dart';
+import 'notification/notification.dart';
+import 'package:flutter/material.dart';
+import 'package:timezone/data/latest.dart' as tz;
+
+
 
 void main() async {
   await Hive.initFlutter();
@@ -25,6 +31,9 @@ void main() async {
   await Hive.openBox<Note>('NoteBox');
   visualDensity:
   VisualDensity.adaptivePlatformDensity;
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+  tz.initializeTimeZones();
   runApp(MaterialApp(home: SplashScreen()));
 }
 

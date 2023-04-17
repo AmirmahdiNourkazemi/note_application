@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:time_pickerr/time_pickerr.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../data/task.dart';
+import '../notification/notification.dart';
 import '../utility/utility.dart';
 import '../widgets/task_type_item.dart';
+
+DateTime scheduleTime = DateTime.now();
 
 class addTsakWidget extends StatefulWidget {
   addTsakWidget({Key? key}) : super(key: key);
@@ -14,9 +18,12 @@ class addTsakWidget extends StatefulWidget {
 }
 
 class _addTsakWidgetState extends State<addTsakWidget> {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  DateTime? selectedTime;
   FocusNode negahban1 = FocusNode();
   FocusNode negahban2 = FocusNode();
-  DateTime? _time;
+
   int SelectedType = 0;
 
   final TextEditingController controllerTaskTitle = TextEditingController();
@@ -35,6 +42,8 @@ class _addTsakWidgetState extends State<addTsakWidget> {
         setState(() {});
       },
     );
+
+    //flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   }
 
   @override
@@ -127,38 +136,49 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                   ),
                 ),
               ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: CustomHourPicker(
-                  title: 'زمان تسک را مشخص کن',
-                  negativeButtonText: 'حذف کن',
-                  positiveButtonText: 'انتخاب زمان',
-                  elevation: 2,
-                  titleStyle: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Color(0xff18DAA3),
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  negativeButtonStyle: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Color(0xff18DAA3),
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                  positiveButtonStyle: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Color(0xff18DAA3),
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                  onPositivePressed: (context, time) {
-                    _time = time;
-                  },
-                  onNegativePressed: (context) {},
-                ),
-              ),
+              // ElevatedButton(
+              //   child: Text('Select Time'),
+              //   onPressed: () => _selectTime(context),
+              // ),
+              // NotificationScreen()
+              DatePickerTxt(),
+              ScheduleBtn(),
+              // Directionality(
+              //   textDirection: TextDirection.rtl,
+              //   child: CustomHourPicker(
+              //     title: 'زمان تسک را مشخص کن',
+              //     negativeButtonText: 'حذف کن',
+              //     positiveButtonText: 'انتخاب زمان',
+              //     elevation: 2,
+              //     titleStyle: TextStyle(
+              //       color: Theme.of(context).brightness == Brightness.dark
+              //           ? Colors.white
+              //           : Color(0xff18DAA3),
+              //       fontSize: 22,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //     negativeButtonStyle: TextStyle(
+              //         color: Theme.of(context).brightness == Brightness.dark
+              //             ? Colors.white
+              //             : Color(0xff18DAA3),
+              //         fontSize: 22,
+              //         fontWeight: FontWeight.bold),
+              //     positiveButtonStyle: TextStyle(
+              //         color: Theme.of(context).brightness == Brightness.dark
+              //             ? Colors.white
+              //             : Color(0xff18DAA3),
+              //         fontSize: 22,
+              //         fontWeight: FontWeight.bold),
+              //     onPositivePressed: (context, time) {
+              //       selectedTime = time;
+              //       // DateTime dateTime = DateTime.now();
+              //       Time timeEnd =
+              //           Time(selectedTime!.hour, selectedTime!.minute);
+              //     },
+              //     onNegativePressed: (context) {},
+              //   ),
+              // ),
+
               Container(
                 height: 200,
                 child: ListView.builder(
@@ -235,10 +255,60 @@ class _addTsakWidgetState extends State<addTsakWidget> {
     var allTask = Task(
       title: task,
       subTitle: subTask,
-      time: _time!,
+      time: scheduleTime,
       taskType: getTaskTypeList()[SelectedType],
     );
     box.add(allTask);
     //print(box.get(1)!.title);
+  }
+}
+
+class DatePickerTxt extends StatefulWidget {
+  const DatePickerTxt({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<DatePickerTxt> createState() => _DatePickerTxtState();
+}
+
+class _DatePickerTxtState extends State<DatePickerTxt> {
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        DatePicker.showDateTimePicker(
+          context,
+          showTitleActions: true,
+          onChanged: (date) => scheduleTime = date,
+          onConfirm: (date) {},
+        );
+      },
+      child: const Text(
+        'Select Date Time',
+        style: TextStyle(color: Colors.blue),
+      ),
+    );
+  }
+}
+
+class ScheduleBtn extends StatelessWidget {
+  const ScheduleBtn({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      child: const Text('Schedule notifications'),
+      onPressed: () {
+        debugPrint('Notification Scheduled for $scheduleTime');
+        NotificationService().scheduleNotification(
+          title: 'Scheduled Notification',
+          body: '$scheduleTime',
+          scheduledNotificationDateTime: scheduleTime,
+        );
+      },
+    );
   }
 }
