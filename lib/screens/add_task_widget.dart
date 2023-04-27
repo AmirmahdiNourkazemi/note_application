@@ -149,41 +149,6 @@ class _addTsakWidgetState extends State<addTsakWidget> {
               SizedBox(
                 height: 40,
               ),
-              // Directionality(
-              //   textDirection: TextDirection.rtl,
-              //   child: CustomHourPicker(
-              //     title: 'زمان تسک را مشخص کن',
-              //     negativeButtonText: 'حذف کن',
-              //     positiveButtonText: 'انتخاب زمان',
-              //     elevation: 2,
-              //     titleStyle: TextStyle(
-              //       color: Theme.of(context).brightness == Brightness.dark
-              //           ? Colors.white
-              //           : Color(0xff18DAA3),
-              //       fontSize: 22,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //     negativeButtonStyle: TextStyle(
-              //         color: Theme.of(context).brightness == Brightness.dark
-              //             ? Colors.white
-              //             : Color(0xff18DAA3),
-              //         fontSize: 22,
-              //         fontWeight: FontWeight.bold),
-              //     positiveButtonStyle: TextStyle(
-              //         color: Theme.of(context).brightness == Brightness.dark
-              //             ? Colors.white
-              //             : Color(0xff18DAA3),
-              //         fontSize: 22,
-              //         fontWeight: FontWeight.bold),
-              //     onPositivePressed: (context, time) {
-              //       selectedTime = time;
-              //       // DateTime dateTime = DateTime.now();
-              //       Time timeEnd =
-              //           Time(selectedTime!.hour, selectedTime!.minute);
-              //     },
-              //     onNegativePressed: (context) {},
-              //   ),
-              // ),
 
               Text(
                 'عکسی که دوس داری رو انتخاب کن',
