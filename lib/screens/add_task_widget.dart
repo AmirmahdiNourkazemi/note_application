@@ -34,6 +34,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
 
   @override
   void initState() {
+    DatePickerTxt().getTime();
     super.initState();
     negahban1.addListener(() {
       setState(() {});
@@ -196,10 +197,11 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         String task1 = controllerTaskTitle.text;
                         String task2 = controllerSubTaskTitle.text;
-                        addTask(task1, task2);
+                        DateTime time = await DatePickerTxt().getTime();
+                        addTask(task1, task2, time);
                         Navigator.pop(context);
                       },
                       child: Text(
@@ -234,11 +236,11 @@ class _addTsakWidgetState extends State<addTsakWidget> {
     );
   }
 
-  addTask(String task, String subTask) {
+  addTask(String task, String subTask, DateTime time) async {
     var allTask = Task(
       title: task,
       subTitle: subTask,
-      time: scheduleTime,
+      time: await time,
       taskType: getTaskTypeList()[SelectedType],
     );
     box.add(allTask);
@@ -250,6 +252,9 @@ class DatePickerTxt extends StatefulWidget {
   const DatePickerTxt({
     Key? key,
   }) : super(key: key);
+  Future<DateTime> getTime() async {
+    return scheduleTime;
+  }
 
   @override
   State<DatePickerTxt> createState() => _DatePickerTxtState();
