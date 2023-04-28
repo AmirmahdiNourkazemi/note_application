@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/data/note.dart';
-import 'package:note_application/screens/setting_screen.dart';
+import 'package:note_application/screens/feature_screen.dart';
 
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
@@ -18,8 +18,6 @@ import 'data/task_type.dart';
 import 'notification/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/data/latest.dart' as tz;
-
-
 
 void main() async {
   await Hive.initFlutter();
@@ -34,7 +32,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   tz.initializeTimeZones();
-  runApp(MaterialApp(home: SplashScreen()));
+  runApp(MainScreen()
+      // MaterialApp(
+      //   debugShowCheckedModeBanner: false,
+      //   home: SplashScreen(),
+      // ),
+      );
 }
 
 class AnimationStart extends StatefulWidget {
@@ -234,9 +237,9 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'setting',
-                activeIcon: Icon(Icons.settings_rounded),
+                icon: Icon(Icons.rocket_launch),
+                label: 'feature',
+                activeIcon: Icon(Icons.rocket_launch_outlined),
                 backgroundColor: Color.fromARGB(255, 15, 114, 86),
               ),
             ],

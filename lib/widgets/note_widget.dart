@@ -27,15 +27,15 @@ class _NoteWidgetState extends State<NoteWidget> {
         });
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        width: 500,
-        height: 150,
+        margin: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+        width: double.infinity,
+        height: 120,
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? Color.fromARGB(255, 94, 92, 92)
               : Colors.white,
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(20),
           ),
           border: Border.all(
             color: Colors.black,
@@ -73,20 +73,19 @@ class _NoteWidgetState extends State<NoteWidget> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: ((context) {
-                        return EditNote(widget.index, note: widget.note);
-                      })));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: ((context) {
+                            return EditNote(widget.index, note: widget.note);
+                          }),
+                        ),
+                      );
                     },
                     child: Icon(Icons.edit),
                   ),
                   Center(
                     child: Text(
-                      widget.note.subject
-                          .replaceAll('<', '')
-                          .replaceAll('>', '')
-                          .replaceAll('insert', '')
-                          .replaceAll('+', ''),
+                      widget.note.subject,
                       style: TextStyle(
                         fontFamily: 'SM',
                         fontSize: 20,

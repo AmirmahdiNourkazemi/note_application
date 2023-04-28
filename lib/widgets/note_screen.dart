@@ -44,10 +44,10 @@ class _NoteScreenState extends State<NoteScreen> {
             valueListenable: taskBox.listenable(),
             builder: (context, value, child) {
               return SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 sliver: SliverGrid(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 3,
+                    childAspectRatio: 4,
                     crossAxisCount: 1,
                     mainAxisSpacing: 0,
                     crossAxisSpacing: 0,
@@ -62,7 +62,6 @@ class _NoteScreenState extends State<NoteScreen> {
                           });
                         },
                         onLongPress: () {
-                          //isLongPress = true;
                           setState(() {
                             isLongPress = !isLongPress;
                           });
@@ -160,7 +159,10 @@ class _NoteScreenState extends State<NoteScreen> {
               .showSnackBar(SnackBar(content: Text("${note.subject} deleted")));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("${note.subject} go to edit screen")));
+            SnackBar(
+              content: Text("${note.subject} go to edit screen"),
+            ),
+          );
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => EditNote(
@@ -206,16 +208,6 @@ class _NoteScreenState extends State<NoteScreen> {
         longPress: isLongPress,
       ),
     );
-    // return Dismissible(
-    //   key: UniqueKey(),
-    //   onDismissed: (direction) {
-    //     note.delete();
-    //   },
-    //   child: NoteWidget(
-    //     note: taskBox.values.toList()[index],
-    //     longPress: isLongPress,
-    //   ),
-    // );
   }
 
   void _showContextMenu(BuildContext context, Note note) async {
@@ -243,74 +235,5 @@ class _NoteScreenState extends State<NoteScreen> {
         Navigator.pop(context);
         break;
     }
-  }
-}
-
-class FancyFab extends StatefulWidget {
-  @override
-  _FancyFabState createState() => _FancyFabState();
-}
-
-class _FancyFabState extends State<FancyFab>
-    with SingleTickerProviderStateMixin {
-  bool isOpened = false;
-  AnimationController? _animationController;
-  Animation<Color?>? _animateColor;
-  Animation<double>? _animateIcon;
-  Curve _curve = Curves.easeOut;
-
-  @override
-  initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
-          ..addListener(() {
-            setState(() {});
-          });
-    _animateIcon =
-        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController!);
-    _animateColor = ColorTween(
-      begin: Colors.blue,
-      end: Colors.red,
-    ).animate(CurvedAnimation(
-      parent: _animationController!,
-      curve: Interval(
-        0.00,
-        1.00,
-        curve: _curve,
-      ),
-    ));
-    super.initState();
-  }
-
-  @override
-  dispose() {
-    _animationController!.dispose();
-    super.dispose();
-  }
-
-  animate() {
-    if (!isOpened) {
-      _animationController!.forward();
-    } else {
-      _animationController!.reverse();
-    }
-    isOpened = !isOpened;
-  }
-
-  Widget toggle() {
-    return FloatingActionButton(
-      backgroundColor: _animateColor!.value,
-      onPressed: animate,
-      tooltip: 'Toggle',
-      child: AnimatedIcon(
-        icon: AnimatedIcons.menu_close,
-        progress: _animateIcon!,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return toggle();
   }
 }
