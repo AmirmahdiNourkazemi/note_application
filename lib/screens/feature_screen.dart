@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SettingScreen extends StatefulWidget {
-  SettingScreen(this.isDark, {super.key});
+class featureScreen extends StatefulWidget {
+  featureScreen(this.isDark, {super.key});
   bool isDark;
   @override
-  State<SettingScreen> createState() => _SettingScreenState();
+  State<featureScreen> createState() => _featureScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen> {
+class _featureScreenState extends State<featureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +19,43 @@ class _SettingScreenState extends State<SettingScreen> {
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             sliver: SliverToBoxAdapter(
               child: Container(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          print('object');
+                        },
+                        child: Text('data'),
+                      ),
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'یادآوری پرداخت بیمه',
+                            textScaleFactor: 1.2,
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Icon(
+                            Icons.alarm,
+                            size: 25,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 width: double.infinity,
                 height: 100,
                 decoration: BoxDecoration(

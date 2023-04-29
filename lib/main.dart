@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/screens/feature_screen.dart';
@@ -16,7 +17,6 @@ import 'data/enum_task.dart';
 import 'data/task.dart';
 import 'data/task_type.dart';
 import 'notification/notification.dart';
-import 'package:flutter/material.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
@@ -185,31 +185,128 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   int _selectedIndex = 0;
   bool isDarkModeEnable = false;
+  bool isDrawerOpen = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: isDarkModeEnable ? darkTheme : lightTheme,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        key: _scaffoldKey,
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.fastLinearToSlowEaseIn,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Color.fromARGB(255, 94, 92, 92)
+                      : Color(0xff18DAA3),
+                ),
+                child: Column(
+                  children: [
+                    SvgPicture.asset('assets/images/robot-face.svg'),
+                    SizedBox(
+                      height: 11,
+                    ),
+                    Text(
+                      '!!!سلام من میتونم بهت کمک کنم',
+                      textScaleFactor: 1.1,
+                    )
+                  ],
+                ),
+              ),
+              ListTile(
+                subtitle: Text(
+                  '!!اینجا میتونی تم اپلیکیشن رو عوض کنی',
+                  style: TextStyle(),
+                  textAlign: TextAlign.right,
+                ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Transform.scale(
+                      scale: 1.3,
+                      child: Switch(
+                        splashRadius: 2.1,
+                        activeColor: Colors.white,
+                        value: isDarkModeEnable,
+                        onChanged: (value) {
+                          setState(
+                            () {
+                              isDarkModeEnable = !isDarkModeEnable;
+                            },
+                          );
+                        },
+                        activeThumbImage: AssetImage('assets/images/moon.png'),
+                        inactiveThumbImage: AssetImage('assets/images/sun.png'),
+                      ),
+                    ),
+                    Text(
+                      isDarkModeEnable ? 'حالت شب' : 'حالت روز',
+                      textScaleFactor: 1.3,
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              Divider(
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.grey
+                    : Colors.white,
+              ),
+              ListTile(
+                subtitle: Text(
+                  'میخوای درباره من بدونی ؟',
+                  textAlign: TextAlign.right,
+                ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'درباره من',
+                      softWrap: true,
+                      textScaleFactor: 1.3,
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  print('object');
+                },
+              ),
+              Divider(
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.grey
+                    : Colors.white,
+              ),
+            ],
+          ),
+        ),
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.menu,
+              size: 32,
+            ),
+            onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+          ),
           //backgroundColor: Color(0xff18DAA3),
-          actions: [
-            Switch(
-              activeColor: Colors.white,
-              value: isDarkModeEnable,
-              onChanged: (value) {
-                setState(
-                  () {
-                    isDarkModeEnable = !isDarkModeEnable;
-                  },
-                );
-              },
-              activeThumbImage: AssetImage('assets/images/moon.png'),
-              inactiveThumbImage: AssetImage('assets/images/sun.png'),
-            )
-          ],
+          actions: [],
         ),
         body: IndexedStack(
           index: _selectedIndex,
@@ -257,7 +354,7 @@ class _MainScreenState extends State<MainScreen> {
     return <Widget>[
       HomeScreen(),
       NoteScreen(),
-      SettingScreen(isDarkModeEnable),
+      featureScreen(isDarkModeEnable),
     ];
   }
 
