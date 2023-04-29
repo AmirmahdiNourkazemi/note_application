@@ -32,7 +32,7 @@ class _NoteWidgetState extends State<NoteWidget> {
         height: 120,
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
-              ? Color.fromARGB(255, 94, 92, 92)
+              ? Color.fromRGBO(94, 92, 92, 1)
               : Colors.white,
           borderRadius: BorderRadius.all(
             Radius.circular(20),

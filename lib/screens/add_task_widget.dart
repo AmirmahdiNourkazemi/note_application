@@ -35,6 +35,8 @@ class _addTsakWidgetState extends State<addTsakWidget> {
   @override
   void initState() {
     DatePickerTxt().getTime();
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
     super.initState();
     negahban1.addListener(() {
       setState(() {});
@@ -276,6 +278,9 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       ),
       onPressed: () {
+        NotificationDetails(
+          android: AndroidNotificationDetails('channelId', 'channelName'),
+        );
         DatePicker.showDateTimePicker(
           context,
           showTitleActions: true,

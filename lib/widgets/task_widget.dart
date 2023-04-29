@@ -134,7 +134,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                     child: Text(
                       '${widget.task.time.hour}:${getMinute(widget.task.time)}',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 15,
                         color: Colors.white,
                       ),
                     ),
@@ -171,7 +171,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                 children: [
                   Icon(
                     Icons.edit,
-                    color: Color.fromARGB(255, 70, 199, 74),
+                    color: Color(0xff18DAA3),
                     size: 18,
                   ),
                   SizedBox(
@@ -180,6 +180,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                   Text(
                     'ویرایش',
                     style: TextStyle(
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Color(0xff18DAA3),
                     ),

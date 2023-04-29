@@ -134,36 +134,6 @@ class _AddNoteState extends State<AddNote> {
                 ),
               ),
             ),
-            // Directionality(
-            //   textDirection: TextDirection.rtl,
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(horizontal: 20),
-            //     child: Container(
-            //       height: 650,
-            //       decoration: BoxDecoration(
-            //         border: Border.all(
-            //             color: Theme.of(context).brightness == Brightness.dark
-            //                 ? Color(0xff18DAA3)
-            //                 : Colors.white,
-            //             width: 3.0),
-            //         borderRadius: BorderRadius.all(
-            //           Radius.circular(10),
-            //         ),
-            //       ),
-            //       child: Column(
-            //         children: [
-            //           QuillToolbar.basic(controller: controllerSubTaskTitle),
-            //           Container(
-            //             child: QuillEditor.basic(
-            //               controller: controllerSubTaskTitle,
-            //               readOnly: false, // true for view only mode
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Spacer(),
             Padding(
               padding: const EdgeInsets.only(right: 85),

@@ -9,7 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/screens/feature_screen.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -32,12 +32,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   tz.initializeTimeZones();
+  await setup();
   runApp(MainScreen()
       // MaterialApp(
       //   debugShowCheckedModeBanner: false,
       //   home: SplashScreen(),
       // ),
       );
+}
+
+final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+Future<void> setup() async {
+  const androidInitializationSetting =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const iosInitializationSetting = DarwinInitializationSettings();
+  const initSettings = InitializationSettings(
+      android: androidInitializationSetting, iOS: iosInitializationSetting);
+  await _flutterLocalNotificationsPlugin.initialize(initSettings);
 }
 
 class AnimationStart extends StatefulWidget {
