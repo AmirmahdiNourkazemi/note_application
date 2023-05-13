@@ -41,7 +41,7 @@ class taskTypeList extends StatelessWidget {
                       ? Colors.white
                       : Colors.black
                   : Theme.of(context).brightness == Brightness.dark
-                      ? Color.fromARGB(255, 94, 92, 92)
+                      ? Colors.white
                       : Colors.black,
               fontSize: (selectedItem == index) ? 22 : 18,
             ),
