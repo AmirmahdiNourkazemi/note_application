@@ -20,6 +20,8 @@ class editTsakWidget extends StatefulWidget {
 class _editTsakWidgetState extends State<editTsakWidget> {
   FocusNode negahban1 = FocusNode();
   FocusNode negahban2 = FocusNode();
+  var title;
+  var subTitle;
   TextEditingController? controllerTaskTitle;
   TextEditingController? controllerSubTaskTitle;
   DateTime? _time;
@@ -30,6 +32,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
   void initState() {
     super.initState();
     DatePickerTxt().getTime();
+
     controllerTaskTitle = TextEditingController(text: widget.task.title);
     controllerSubTaskTitle = TextEditingController(text: widget.task.subTitle);
     var index = getTaskTypeList().indexWhere((element) {
@@ -45,6 +48,13 @@ class _editTsakWidgetState extends State<editTsakWidget> {
         setState(() {});
       },
     );
+    setState(() {
+      title = widget.task.title;
+      subTitle = widget.task.subTitle;
+      controllerTaskTitle = TextEditingController(text: widget.task.title);
+      controllerSubTaskTitle =
+          TextEditingController(text: widget.task.subTitle);
+    });
   }
 
   @override
@@ -140,7 +150,18 @@ class _editTsakWidgetState extends State<editTsakWidget> {
               SizedBox(
                 height: 50,
               ),
-              DatePickerTxt(),
+              GestureDetector(
+                onTap: () {
+                  setState(() async {
+                    title = await widget.task.title;
+                    subTitle = await widget.task.subTitle;
+                  });
+                },
+                child: DatePickerTxt(
+                  title: title,
+                  body: subTitle,
+                ),
+              ),
               SizedBox(
                 height: 40,
               ),
@@ -172,7 +193,16 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                 onPressed: () async {
                   String task1 = controllerTaskTitle!.text;
                   String task2 = controllerSubTaskTitle!.text;
-                  DateTime time = await DatePickerTxt().getTime();
+                  DateTime time = await DatePickerTxt(
+                    title: task1,
+                    body: task2,
+                  ).getTime();
+                  NotificationService().scheduleNotification(
+                    title: task1,
+                    body: task2,
+                    scheduledNotificationDateTime: scheduleTime,
+                  );
+
                   addTask(task1, task2, time);
                   Navigator.pop(context);
                 },
@@ -181,8 +211,15 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                   style: TextStyle(fontSize: 18),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff18DAA3),
+                  backgroundColor:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Color.fromARGB(255, 94, 92, 92)
+                          : Color(0xff18DAA3),
                   minimumSize: Size(200, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
               )
             ],
@@ -202,7 +239,11 @@ class _editTsakWidgetState extends State<editTsakWidget> {
 }
 
 class DatePickerTxt extends StatefulWidget {
-  const DatePickerTxt({
+  String? title;
+  String? body;
+  DatePickerTxt({
+    this.title,
+    this.body,
     Key? key,
   }) : super(key: key);
   Future<DateTime> getTime() async {
@@ -222,7 +263,6 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        // primary: Colors.blue,
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? Color.fromARGB(255, 94, 92, 92)
             : Color(0xff18DAA3),
@@ -243,8 +283,8 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
             }
 
             NotificationService().scheduleNotification(
-              title: 'Scheduled Notification',
-              body: '$scheduleTime',
+              title: widget.title,
+              body: widget.body,
               scheduledNotificationDateTime: scheduleTime,
             );
           },
@@ -300,7 +340,7 @@ class ScheduleBtn extends StatelessWidget {
       onPressed: () {
         debugPrint('Notification Scheduled for $scheduleTime');
         NotificationService().scheduleNotification(
-          title: 'Scheduled Notification',
+          title: '',
           body: '$scheduleTime',
           scheduledNotificationDateTime: scheduleTime,
         );

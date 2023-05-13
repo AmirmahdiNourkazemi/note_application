@@ -89,7 +89,7 @@ class _EditNoteState extends State<EditNote> {
                 textDirection: TextDirection.rtl,
                 child: TextField(
                   controller: controllerSubTaskTitle,
-                  maxLines: 30,
+                  maxLines: 25,
                   focusNode: negahban2,
                   decoration: InputDecoration(
                     contentPadding:
@@ -183,9 +183,14 @@ class _EditNoteState extends State<EditNote> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           Theme.of(context).brightness == Brightness.dark
-                              ? Color.fromARGB(255, 46, 45, 45)
-                              : Colors.white,
+                              ? Color.fromARGB(255, 94, 92, 92)
+                              : Color(0xff18DAA3),
                       minimumSize: Size(200, 40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                     ),
                   ),
                 ],

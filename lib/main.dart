@@ -1,15 +1,11 @@
 import 'dart:async';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/screens/feature_screen.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -217,8 +213,8 @@ class _MainScreenState extends State<MainScreen> {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.fastLinearToSlowEaseIn,
+                // duration: Duration(milliseconds: 500),
+                //  curve: Curves.fastLinearToSlowEaseIn,
                 decoration: BoxDecoration(
                   color: Theme.of(context).brightness == Brightness.dark
                       ? Color.fromARGB(255, 94, 92, 92)
@@ -309,6 +305,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         appBar: AppBar(
+          title: Text('سر وقت باش'),
           leading: IconButton(
             icon: Icon(
               Icons.menu,

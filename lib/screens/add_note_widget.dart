@@ -171,6 +171,11 @@ class _AddNoteState extends State<AddNote> {
                               ? Color.fromARGB(255, 94, 92, 92)
                               : Color(0xff18DAA3),
                       minimumSize: Size(200, 40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                     ),
                   ),
                 ],

@@ -148,7 +148,70 @@ class _addTsakWidgetState extends State<addTsakWidget> {
               SizedBox(
                 height: 50,
               ),
-              DatePickerTxt(),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  // primary: Colors.blue,
+                  backgroundColor:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Color.fromARGB(255, 94, 92, 92)
+                          : Color(0xff18DAA3),
+                  minimumSize: Size(200, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                ),
+                onPressed: () {
+                  NotificationDetails(
+                    android:
+                        AndroidNotificationDetails('channelId', 'channelName'),
+                  );
+                  DatePicker.showDateTimePicker(
+                    context,
+                    onCancel: () {},
+                    theme: DatePickerTheme(
+                      containerHeight: 90,
+                      cancelStyle: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Color(0xff424242),
+                      ),
+                      doneStyle: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Color(0xff424242),
+                      ),
+                      titleHeight: 60,
+                      itemHeight: 40,
+                      itemStyle: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Color(0xff424242),
+                      ),
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.white
+                              : Color(0xff424242),
+                    ),
+                    minTime: DateTime.now(),
+                    showTitleActions: true,
+                    onChanged: (date) {
+                      scheduleTime = date;
+                    },
+                    onConfirm: (date) {},
+                  );
+                },
+                child: const Text(
+                  'ساعت رو انتخاب کن',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 40,
               ),
@@ -203,6 +266,41 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         String task1 = controllerTaskTitle.text;
                         String task2 = controllerSubTaskTitle.text;
                         DateTime time = await DatePickerTxt().getTime();
+                        NotificationService().scheduleNotification(
+                          title: task1,
+                          body: task2,
+                          scheduledNotificationDateTime: time,
+                        );
+                        if (DateTime.now().compareTo(time) > 0) {
+                          final snackBar = SnackBar(
+                            backgroundColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Color.fromARGB(255, 94, 92, 92)
+                                    : Colors.white,
+                            content: Text(
+                              'ساعت را درست انتخاب کن',
+                              style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontFamily: 'SM',
+                              ),
+                            ),
+                            action: SnackBarAction(
+                              textColor: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Color.fromARGB(255, 177, 176, 176)
+                                  : Colors.black,
+                              label: 'حله',
+                              onPressed: () {
+                                // Some code to undo the change.
+                              },
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          return;
+                        }
                         addTask(task1, task2, time);
                         Navigator.pop(context);
                       },
@@ -251,9 +349,11 @@ class _addTsakWidgetState extends State<addTsakWidget> {
 }
 
 class DatePickerTxt extends StatefulWidget {
-  const DatePickerTxt({
-    Key? key,
-  }) : super(key: key);
+  DatePickerTxt({Key? key, this.title})
+      : super(
+          key: key,
+        );
+  String? title;
   Future<DateTime> getTime() async {
     return scheduleTime;
   }
@@ -292,32 +392,7 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
               scheduledNotificationDateTime: scheduleTime,
             );
           },
-          onConfirm: (date) {
-            final snackBar = SnackBar(
-              backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? Color.fromARGB(255, 94, 92, 92)
-                  : Colors.white,
-              content: Text(
-                'ساعت با موفقیت تنظیم شد',
-                style: TextStyle(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black,
-                  fontFamily: 'SM',
-                ),
-              ),
-              action: SnackBarAction(
-                textColor: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
-                label: 'حله',
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
+          onConfirm: (date) {},
         );
       },
       child: const Text(
@@ -328,27 +403,6 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
           fontWeight: FontWeight.bold,
         ),
       ),
-    );
-  }
-}
-
-class ScheduleBtn extends StatelessWidget {
-  const ScheduleBtn({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: const Text('Schedule notifications'),
-      onPressed: () {
-        debugPrint('Notification Scheduled for $scheduleTime');
-        NotificationService().scheduleNotification(
-          title: 'Scheduled Notification',
-          body: '$scheduleTime',
-          scheduledNotificationDateTime: scheduleTime,
-        );
-      },
     );
   }
 }
