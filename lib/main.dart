@@ -78,9 +78,6 @@ class _MainScreenState extends State<MainScreen> {
           home: Scaffold(
             key: _scaffoldKey,
             drawer: Drawer(
-              // Add a ListView to the drawer. This ensures the user can scroll
-              // through the options in the drawer if there isn't enough vertical
-              // space to fit everything.
               child: Consumer<ThemeProvider>(
                 builder: (context, provider, child) {
                   return ListView(
@@ -89,24 +86,24 @@ class _MainScreenState extends State<MainScreen> {
                     padding: EdgeInsets.zero,
                     children: [
                       DrawerHeader(
-                        // duration: Duration(milliseconds: 500),
-                        //  curve: Curves.fastLinearToSlowEaseIn,
                         decoration: BoxDecoration(
                           color: Theme.of(context).brightness == Brightness.dark
                               ? Color.fromARGB(255, 94, 92, 92)
                               : Color(0xff18DAA3),
                         ),
-                        child: Column(
-                          children: [
-                            SvgPicture.asset('assets/images/robot-face.svg'),
-                            SizedBox(
-                              height: 11,
-                            ),
-                            Text(
-                              '!!!سلام من میتونم بهت کمک کنم',
-                              textScaleFactor: 1.1,
-                            )
-                          ],
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SvgPicture.asset('assets/images/robot-face.svg'),
+                              SizedBox(
+                                height: 11,
+                              ),
+                              Text(
+                                '!!!سلام من میتونم بهت کمک کنم',
+                                textScaleFactor: 1.1,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       ListTile(

@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -200,7 +201,33 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                     onChanged: (date) {
                       scheduleTime = date;
                     },
-                    onConfirm: (date) {},
+                    onConfirm: (date) {
+                      final snackBar = SnackBar(
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        // backgroundColor:
+                        //     Theme.of(context).brightness == Brightness.dark
+                        //         ? Color.fromARGB(255, 94, 92, 92)
+                        //         : Colors.white,
+                        content: AwesomeSnackbarContent(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Color(0xff18DAA3)
+                                  : Color(0xff424242),
+                          title: '!!تایم با موفقیت ست شد',
+                          message: '${date}',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                          contentType: ContentType.success,
+                          // to configure for material banner
+                          inMaterialBanner: false,
+                        ),
+                      );
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(snackBar);
+                    },
                   );
                 },
                 child: const Text(
@@ -273,33 +300,43 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         );
                         if (DateTime.now().compareTo(time) > 0) {
                           final snackBar = SnackBar(
-                            backgroundColor:
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? Color.fromARGB(255, 94, 92, 92)
-                                    : Colors.white,
-                            content: Text(
-                              'ساعت را درست انتخاب کن',
-                              style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontFamily: 'SM',
-                              ),
-                            ),
-                            action: SnackBarAction(
-                              textColor: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Color.fromARGB(255, 177, 176, 176)
-                                  : Colors.black,
-                              label: 'حله',
-                              onPressed: () {
-                                // Some code to undo the change.
-                              },
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: '!!تایم نادرست است',
+                              message:
+                                  'لطفا تایم را درست کنید و دوباره امتحان کنید',
+
+                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                              contentType: ContentType.failure,
+                              // to configure for material banner
+                              inMaterialBanner: false,
                             ),
                           );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(snackBar);
                           return;
+                        }
+                        if (DateTime.now().compareTo(time) < 0) {
+                          final snackBar = SnackBar(
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'تسک با موفقیت اضافه شد',
+                              message: 'دیگه نگران چیزی نباش',
+
+                              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                              contentType: ContentType.success,
+                              // to configure for material banner
+                              inMaterialBanner: false,
+                            ),
+                          );
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(snackBar);
                         }
                         addTask(task1, task2, time);
                         Navigator.pop(context);

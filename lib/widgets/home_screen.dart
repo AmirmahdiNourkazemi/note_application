@@ -141,37 +141,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: TaskWidget(task: task),
     );
-    // return Dismissible(
-    //   key: UniqueKey(),
-    //   onDismissed: (LongPressEndDetails) {
-    //     task.delete();
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(
-    //         content: Text('${task.title} removed'),
-    //       ),
-    //     );
-    //   },
-    //   background: Container(
-    //     color: Colors.red,
-    //     child: Padding(
-    //       padding: EdgeInsets.symmetric(horizontal: 30),
-    //       child: Row(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //         children: [
-    //           Icon(
-    //             Icons.edit,
-    //             size: 40,
-    //           ),
-    //           Icon(
-    //             Icons.delete,
-    //             size: 40,
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    //   child: TaskWidget(task: task),
-    // );
   }
 }

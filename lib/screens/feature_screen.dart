@@ -51,7 +51,7 @@ class _featureScreenState extends State<featureScreen> {
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            'بادآور خدمات تعمیر خودرو',
+                            'یادآور خدمات تعمیر خودرو',
                             textScaleFactor: 1.2,
                           ),
                           SizedBox(
@@ -125,7 +125,7 @@ class chequeContainer extends StatelessWidget {
                     width: 8,
                   ),
                   Icon(
-                    Icons.alarm,
+                    Icons.attach_money_outlined,
                     size: 25,
                   ),
                 ],
@@ -188,7 +188,7 @@ class InsuranceContainer extends StatelessWidget {
                     width: 8,
                   ),
                   Icon(
-                    Icons.alarm_add_outlined,
+                    Icons.document_scanner_outlined,
                     size: 25,
                   ),
                 ],

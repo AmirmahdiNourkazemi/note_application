@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/screens/edit_note_screen.dart';
+import 'package:note_application/screens/see_note_screen.dart';
 
 class NoteWidget extends StatefulWidget {
   Note note;
@@ -71,27 +72,48 @@ class _NoteWidgetState extends State<NoteWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: ((context) {
-                            return EditNote(widget.index, note: widget.note);
-                          }),
-                        ),
-                      );
-                    },
-                    child: Icon(Icons.edit),
-                  ),
-                  Center(
-                    child: Text(
-                      widget.note.subject,
-                      style: TextStyle(
-                        fontFamily: 'SM',
-                        fontSize: 20,
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: ((context) {
+                                return EditNote(widget.index,
+                                    note: widget.note);
+                              }),
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.edit),
                       ),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
+                      SizedBox(
+                        width: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: ((context) {
+                                return SeeNoteScreen(widget.index, widget.note);
+                              }),
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.remove_red_eye),
+                      ),
+                    ],
+                  ),
+                  Flexible(
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: RichText(
+                        overflow: TextOverflow.ellipsis,
+                        strutStyle: StrutStyle(fontSize: 12.0),
+                        text: TextSpan(
+                            style: TextStyle(fontFamily: 'SM', fontSize: 20),
+                            text: '${widget.note.subject}'),
+                      ),
                     ),
                   ),
                 ],
