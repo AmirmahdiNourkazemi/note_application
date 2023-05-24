@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:note_application/calendar_screen.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/models/ThemeNotifier.dart';
 import 'package:note_application/screens/feature_screen.dart';
-
+import 'package:jalali_table_calendar/jalali_table_calendar.dart';
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
+
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -107,6 +109,9 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                       ListTile(
+                        trailing: themeProvider.getTheme == darkTheme
+                            ? Icon(Icons.dark_mode)
+                            : Icon(Icons.light_mode),
                         subtitle: Text(
                           '!!اینجا میتونی تم اپلیکیشن رو عوض کنی',
                           style: TextStyle(),
@@ -151,6 +156,34 @@ class _MainScreenState extends State<MainScreen> {
                             : Colors.white,
                       ),
                       ListTile(
+                        trailing: Icon(Icons.calendar_month),
+                        subtitle: Text(
+                          'کلیک کن تا تقویم رو ببینی',
+                          textAlign: TextAlign.right,
+                        ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'تقویم',
+                              softWrap: true,
+                              textScaleFactor: 1.3,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return CalendarScreen();
+                          }));
+                        },
+                      ),
+                      Divider(
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.grey
+                            : Colors.white,
+                      ),
+                      ListTile(
                         subtitle: Text(
                           'میخوای درباره من بدونی ؟',
                           textAlign: TextAlign.right,
@@ -168,11 +201,6 @@ class _MainScreenState extends State<MainScreen> {
                         onTap: () {
                           print('object');
                         },
-                      ),
-                      Divider(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.white,
                       ),
                     ],
                   );
