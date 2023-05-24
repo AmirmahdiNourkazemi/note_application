@@ -111,7 +111,13 @@ class _NoteWidgetState extends State<NoteWidget> {
                         overflow: TextOverflow.ellipsis,
                         strutStyle: StrutStyle(fontSize: 12.0),
                         text: TextSpan(
-                            style: TextStyle(fontFamily: 'SM', fontSize: 20),
+                            style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontFamily: 'SM',
+                                fontSize: 20),
                             text: '${widget.note.subject}'),
                       ),
                     ),

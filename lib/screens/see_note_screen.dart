@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../data/note.dart';
 
@@ -17,12 +15,16 @@ class _SeeNoteScreenState extends State<SeeNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Flexible(
+        title: Directionality(
+          textDirection: TextDirection.rtl,
           child: RichText(
             overflow: TextOverflow.ellipsis,
             strutStyle: StrutStyle(fontSize: 12.0),
             text: TextSpan(
-                style: TextStyle(fontFamily: 'SM', fontSize: 20),
+                style: TextStyle(
+                  fontFamily: 'SM',
+                  fontSize: 20,
+                ),
                 text: '${widget.note.subject}'),
           ),
         ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:time_pickerr/time_pickerr.dart';
-
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import '../data/task.dart';
 import '../notification/notification.dart';
 import '../utility/utility.dart';
@@ -150,16 +151,103 @@ class _editTsakWidgetState extends State<editTsakWidget> {
               SizedBox(
                 height: 50,
               ),
-              GestureDetector(
-                onTap: () {
-                  setState(() async {
-                    title = await widget.task.title;
-                    subTitle = await widget.task.subTitle;
-                  });
+              // GestureDetector(
+              //   onTap: () {
+              //     setState(() async {
+              //       title = await widget.task.title;
+              //       subTitle = await widget.task.subTitle;
+              //     });
+              //   },
+
+              // ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  // primary: Colors.blue,
+                  backgroundColor:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Color.fromARGB(255, 94, 92, 92)
+                          : Color(0xff18DAA3),
+                  minimumSize: Size(200, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                ),
+                onPressed: () {
+                  NotificationDetails(
+                    android:
+                        AndroidNotificationDetails('channelId', 'channelName'),
+                  );
+                  DatePicker.showDateTimePicker(
+                    context,
+                    onCancel: () {},
+                    theme: DatePickerTheme(
+                      containerHeight: 90,
+                      cancelStyle: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Color(0xff424242),
+                      ),
+                      doneStyle: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Color(0xff424242),
+                      ),
+                      titleHeight: 60,
+                      itemHeight: 40,
+                      itemStyle: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Color(0xff424242),
+                      ),
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.white
+                              : Color(0xff424242),
+                    ),
+                    minTime: DateTime.now(),
+                    showTitleActions: true,
+                    onChanged: (date) {
+                      scheduleTime = date;
+                    },
+                    onConfirm: (date) {
+                      final snackBar = SnackBar(
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        // backgroundColor:
+                        //     Theme.of(context).brightness == Brightness.dark
+                        //         ? Color.fromARGB(255, 94, 92, 92)
+                        //         : Colors.white,
+                        content: AwesomeSnackbarContent(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Color(0xff18DAA3)
+                                  : Color(0xff424242),
+                          title: '!!تایم با موفقیت ست شد',
+                          message: '${date}',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                          contentType: ContentType.success,
+                          // to configure for material banner
+                          inMaterialBanner: false,
+                        ),
+                      );
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(snackBar);
+                    },
+                  );
                 },
-                child: DatePickerTxt(
-                  title: title,
-                  body: subTitle,
+                child: const Text(
+                  'ساعت رو انتخاب کن',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(
@@ -193,22 +281,68 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                 onPressed: () async {
                   String task1 = controllerTaskTitle!.text;
                   String task2 = controllerSubTaskTitle!.text;
-                  DateTime time = await DatePickerTxt(
-                    title: task1,
-                    body: task2,
-                  ).getTime();
+                  DateTime time = widget.task.time;
+
+                  Future<DateTime> getTime() async {
+                    return scheduleTime = time;
+                  }
+
                   NotificationService().scheduleNotification(
                     title: task1,
                     body: task2,
                     scheduledNotificationDateTime: scheduleTime,
                   );
 
-                  addTask(task1, task2, time);
+                  if (DateTime.now().compareTo(time) < 0) {
+                    final snackBar = SnackBar(
+                      elevation: 0,
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: '!!تایم نادرست است',
+                        message: 'لطفا تایم را درست کنید و دوباره امتحان کنید',
+
+                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                        contentType: ContentType.failure,
+                        // to configure for material banner
+                        inMaterialBanner: false,
+                      ),
+                    );
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(snackBar);
+                    return;
+                  }
+                  if (DateTime.now().compareTo(time) < 0) {
+                    final snackBar = SnackBar(
+                      elevation: 0,
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: 'تسک با موفقیت ادیت شد',
+                        message: 'دیگه نگران چیزی نباش',
+
+                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                        contentType: ContentType.success,
+                        // to configure for material banner
+                        inMaterialBanner: false,
+                      ),
+                    );
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(snackBar);
+                  }
+                  addTask(task1, task2, scheduleTime);
                   Navigator.pop(context);
                 },
                 child: Text(
-                  'ویرایش کردن تسک',
-                  style: TextStyle(fontSize: 18),
+                  'ادیت کردن تسک',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xff18DAA3)
+                        : Colors.black,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
@@ -221,7 +355,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -239,13 +373,11 @@ class _editTsakWidgetState extends State<editTsakWidget> {
 }
 
 class DatePickerTxt extends StatefulWidget {
+  DatePickerTxt({Key? key, this.title})
+      : super(
+          key: key,
+        );
   String? title;
-  String? body;
-  DatePickerTxt({
-    this.title,
-    this.body,
-    Key? key,
-  }) : super(key: key);
   Future<DateTime> getTime() async {
     return scheduleTime;
   }
@@ -255,14 +387,11 @@ class DatePickerTxt extends StatefulWidget {
 }
 
 class _DatePickerTxtState extends State<DatePickerTxt> {
-  Future<DateTime> getTime() async {
-    return scheduleTime;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        // primary: Colors.blue,
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? Color.fromARGB(255, 94, 92, 92)
             : Color(0xff18DAA3),
@@ -273,47 +402,21 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       ),
       onPressed: () {
+        NotificationDetails(
+          android: AndroidNotificationDetails('channelId', 'channelName'),
+        );
         DatePicker.showDateTimePicker(
           context,
           showTitleActions: true,
-          onChanged: (date) async {
+          onChanged: (date) {
             scheduleTime = date;
-            Future<DateTime> getTime() async {
-              return scheduleTime = date;
-            }
-
             NotificationService().scheduleNotification(
-              title: widget.title,
-              body: widget.body,
+              title: 'Scheduled Notification',
+              body: '$scheduleTime',
               scheduledNotificationDateTime: scheduleTime,
             );
           },
-          onConfirm: (date) {
-            final snackBar = SnackBar(
-              backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? Color.fromARGB(255, 94, 92, 92)
-                  : Colors.white,
-              content: Text(
-                'ساعت با موفقیت تنظیم شد',
-                style: TextStyle(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black,
-                  fontFamily: 'SM',
-                ),
-              ),
-              action: SnackBarAction(
-                textColor: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
-                label: 'حله',
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
+          onConfirm: (date) {},
         );
       },
       child: const Text(
