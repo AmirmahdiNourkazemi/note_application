@@ -111,7 +111,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                   textDirection: TextDirection.rtl,
                   child: TextField(
                     controller: controllerSubTaskTitle,
-                    maxLines: 3,
+                    maxLines: 2,
                     focusNode: negahban2,
                     decoration: InputDecoration(
                       contentPadding:
@@ -141,11 +141,6 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                   ),
                 ),
               ),
-              // ElevatedButton(
-              //   child: Text('Select Time'),
-              //   onPressed: () => _selectTime(context),
-              // ),
-              // NotificationScreen()
               SizedBox(
                 height: 50,
               ),
@@ -242,7 +237,6 @@ class _addTsakWidgetState extends State<addTsakWidget> {
               SizedBox(
                 height: 40,
               ),
-
               Text(
                 'عکسی که دوس داری رو انتخاب کن',
                 style: TextStyle(fontFamily: 'SM', fontSize: 18),

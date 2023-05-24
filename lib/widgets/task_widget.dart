@@ -85,9 +85,12 @@ class _TaskWidgetState extends State<TaskWidget> {
                   )
                 ],
               ),
-              Text(
-                widget.task.subTitle,
-                overflow: TextOverflow.ellipsis,
+              SizedBox(
+                height: 20,
+                child: Text(
+                  widget.task.subTitle,
+                  overflow: TextOverflow.clip,
+                ),
               ),
               Spacer(),
               getTmeAndEditBadge()
