@@ -293,7 +293,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                     scheduledNotificationDateTime: scheduleTime,
                   );
 
-                  if (DateTime.now().compareTo(time) < 0) {
+                  if (DateTime.now().compareTo(scheduleTime) > 0) {
                     final snackBar = SnackBar(
                       elevation: 0,
                       behavior: SnackBarBehavior.floating,
@@ -313,7 +313,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                       ..showSnackBar(snackBar);
                     return;
                   }
-                  if (DateTime.now().compareTo(time) < 0) {
+                  if (DateTime.now().compareTo(scheduleTime) < 0) {
                     final snackBar = SnackBar(
                       elevation: 0,
                       behavior: SnackBarBehavior.floating,
