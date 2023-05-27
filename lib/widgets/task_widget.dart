@@ -118,7 +118,9 @@ class _TaskWidgetState extends State<TaskWidget> {
           height: 28,
           width: 90,
           decoration: BoxDecoration(
-            color: Color(0xff18DAA3),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Color.fromARGB(255, 41, 41, 41)
+                : Color(0xff18DAA3),
             borderRadius: BorderRadius.all(
               Radius.circular(20),
             ),
@@ -162,7 +164,9 @@ class _TaskWidgetState extends State<TaskWidget> {
             height: 28,
             width: 90,
             decoration: BoxDecoration(
-              color: Color(0xffE2F6F1),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Color.fromARGB(255, 41, 41, 41)
+                  : Color(0xffE2F6F1),
               borderRadius: BorderRadius.all(
                 Radius.circular(20),
               ),

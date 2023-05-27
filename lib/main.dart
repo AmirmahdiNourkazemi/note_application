@@ -8,7 +8,7 @@ import 'package:note_application/calendar_screen.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/models/ThemeNotifier.dart';
 import 'package:note_application/screens/feature_screen.dart';
-import 'package:jalali_table_calendar/jalali_table_calendar.dart';
+import 'package:note_application/widgets/cheque_screen.dart';
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
 
@@ -144,9 +144,6 @@ class _MainScreenState extends State<MainScreen> {
                           ],
                         ),
                         onTap: () {
-                          // Update the state of the app
-                          // ...
-                          // Then close the drawer
                           Navigator.pop(context);
                         },
                       ),
@@ -172,10 +169,11 @@ class _MainScreenState extends State<MainScreen> {
                           ],
                         ),
                         onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return CalendarScreen();
-                          }));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
+                              return CalendarScreen();
+                            }),
+                          );
                         },
                       ),
                       Divider(
@@ -184,6 +182,36 @@ class _MainScreenState extends State<MainScreen> {
                             : Colors.white,
                       ),
                       ListTile(
+                        trailing: Icon(Icons.money),
+                        subtitle: Text(
+                          'زمان چک خودتو بده',
+                          textAlign: TextAlign.right,
+                        ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'موعود چک',
+                              softWrap: true,
+                              textScaleFactor: 1.3,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
+                              return ChequeScreen();
+                            }),
+                          );
+                        },
+                      ),
+                      Divider(
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.grey
+                            : Colors.white,
+                      ),
+                      ListTile(
+                        trailing: Icon(Icons.person_rounded),
                         subtitle: Text(
                           'میخوای درباره من بدونی ؟',
                           textAlign: TextAlign.right,
