@@ -295,7 +295,7 @@ class _MainScreenState extends State<MainScreen> {
     return <Widget>[
       HomeScreen(),
       NoteScreen(),
-      featureScreen(isDarkModeEnable),
+      featureScreen(),
     ];
   }
 

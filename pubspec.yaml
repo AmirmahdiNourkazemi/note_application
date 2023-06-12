@@ -49,6 +49,7 @@ dependencies:
   awesome_snackbar_content: ^0.1.2
   jalali_table_calendar: ^1.1.2+1
   persian_date: ^0.1.5
+  calendar_view: ^1.0.3
   
   
 dev_dependencies:
