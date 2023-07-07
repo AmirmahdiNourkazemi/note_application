@@ -18,12 +18,12 @@ class taskTypeList extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: (selectedItem == index)
-            ? Theme.of(context).brightness == Brightness.dark
-                ? Color.fromARGB(255, 94, 92, 92)
-                : Colors.white
-            : Colors.transparent,
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).dividerColor,
         border: Border.all(
-          color: (selectedItem == index) ? Colors.green : Colors.transparent,
+          color: (selectedItem == index)
+              ? Theme.of(context).selectedRowColor
+              : Colors.transparent,
           width: 3,
         ),
       ),
@@ -36,13 +36,13 @@ class taskTypeList extends StatelessWidget {
           Text(
             taskType.title,
             style: TextStyle(
-              color: (selectedItem == index)
-                  ? Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black
-                  : Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black,
+              // color: (selectedItem == index)
+              //     ? Theme.of(context).brightness == Brightness.dark
+              //         ? Colors.white
+              //         : Colors.black
+              //     : Theme.of(context).brightness == Brightness.dark
+              //         ? Colors.white
+              //         : Colors.black,
               fontSize: (selectedItem == index) ? 22 : 18,
             ),
           ),

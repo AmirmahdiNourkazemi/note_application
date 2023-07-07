@@ -6,8 +6,6 @@ import 'package:note_application/screens/add_note_widget.dart';
 import 'package:note_application/screens/edit_note_screen.dart';
 import 'package:note_application/widgets/note_widget.dart';
 
-import '../screens/add_task_widget.dart';
-
 class NoteScreen extends StatefulWidget {
   NoteScreen({super.key});
 
@@ -27,13 +25,13 @@ class _NoteScreenState extends State<NoteScreen> {
       var taskBox = Hive.box<Note>('NoteBox');
     });
     return Scaffold(
-      //backgroundColor: Color.fromARGB(250, 214, 213, 213),
+      backgroundColor: Theme.of(context).dividerColor,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
@@ -133,12 +131,14 @@ class _NoteScreenState extends State<NoteScreen> {
                   Radius.circular(5),
                 ),
               ),
-              activeColor: Color(0xff18DAA3),
+              //activeColor: Color(0xff18DAA3),
               value: isSelected,
               onChanged: (value) {
-                setState(() {
-                  isSelected = !isSelected;
-                });
+                setState(
+                  () {
+                    isSelected = !isSelected;
+                  },
+                );
               },
             ),
           ],
@@ -175,7 +175,7 @@ class _NoteScreenState extends State<NoteScreen> {
       },
       background: Container(
         height: 100,
-        color: Color(0xff18DAA3),
+        //color: Color(0xff18DAA3),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -195,7 +195,7 @@ class _NoteScreenState extends State<NoteScreen> {
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Icon(
                 Icons.delete,
-                color: Colors.white,
+                //  color: Colors.white,
                 size: 40,
               ),
             ),

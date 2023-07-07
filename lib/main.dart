@@ -8,6 +8,8 @@ import 'package:note_application/calendar_screen.dart';
 import 'package:note_application/data/note.dart';
 import 'package:note_application/models/ThemeNotifier.dart';
 import 'package:note_application/screens/feature_screen.dart';
+import 'package:note_application/theme/color_schemes.g.dart';
+import 'package:note_application/theme/themes.dart';
 import 'package:note_application/widgets/cheque_screen.dart';
 import 'package:note_application/widgets/home_screen.dart';
 import 'package:note_application/widgets/note_screen.dart';
@@ -36,15 +38,8 @@ void main() async {
   tz.initializeTimeZones();
   await setup();
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool themeBool = prefs.getBool("isDark") ?? false;
 
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(isDark: themeBool),
-      child: MainScreen(),
-    ),
-  );
+  runApp(MainScreen());
 }
 
 final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -65,229 +60,253 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  DarkThemeProvider themeChangeProvider = DarkThemeProvider();
+
+  void initState() {
+    getCurrentAppTheme();
+    super.initState();
+  }
+
+  void getCurrentAppTheme() async {
+    themeChangeProvider.darkTheme =
+        await themeChangeProvider.darkThemePreference.getTheme();
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   int _selectedIndex = 0;
-  bool isDarkModeEnable = false;
   bool isDrawerOpen = false;
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return MaterialApp(
-          theme: themeProvider.getTheme,
-          debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            key: _scaffoldKey,
-            drawer: Drawer(
-              child: Consumer<ThemeProvider>(
-                builder: (context, provider, child) {
-                  return ListView(
-                    // Important: Remove an
-                    //vy padding from the ListView.
-                    padding: EdgeInsets.zero,
-                    children: [
-                      DrawerHeader(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Color.fromARGB(255, 94, 92, 92)
-                              : Color(0xff18DAA3),
-                        ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SvgPicture.asset('assets/images/robot-face.svg'),
-                              SizedBox(
-                                height: 11,
-                              ),
-                              Text(
-                                '!!!سلام من میتونم بهت کمک کنم',
-                                textScaleFactor: 1.1,
-                              )
-                            ],
+    return ChangeNotifierProvider(
+      create: (_) => themeChangeProvider,
+      child: Consumer<DarkThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            theme: themeData(themeChangeProvider.darkTheme, context),
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              key: _scaffoldKey,
+              drawer: Drawer(
+                child: Consumer<DarkThemeProvider>(
+                  builder: (context, provider, child) {
+                    return ListView(
+                      padding: EdgeInsets.zero,
+                      children: [
+                        DrawerHeader(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).backgroundColor,
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/images/robot-face.svg'),
+                                SizedBox(
+                                  height: 11,
+                                ),
+                                Text(
+                                  '!!!سلام من میتونم بهت کمک کنم',
+                                  textScaleFactor: 1.1,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      ListTile(
-                        trailing: themeProvider.getTheme == darkTheme
-                            ? Icon(Icons.dark_mode)
-                            : Icon(Icons.light_mode),
-                        subtitle: Text(
-                          '!!اینجا میتونی تم اپلیکیشن رو عوض کنی',
-                          style: TextStyle(),
-                          textAlign: TextAlign.right,
-                        ),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Transform.scale(
-                              scale: 1.3,
-                              child: Switch(
-                                splashRadius: 2.1,
-                                activeColor: Colors.white,
-                                value: themeProvider.getTheme == darkTheme,
-                                onChanged: (value) {
-                                  provider.changeTheme();
-                                },
-                                activeThumbImage:
-                                    AssetImage('assets/images/moon.png'),
-                                inactiveThumbImage:
-                                    AssetImage('assets/images/sun.png'),
+                        ListTile(
+                          trailing: themeProvider.darkTheme == true
+                              ? Icon(Icons.dark_mode)
+                              : Icon(Icons.light_mode),
+                          subtitle: Text(
+                            '!!اینجا میتونی تم اپلیکیشن رو عوض کنی',
+                            style: TextStyle(),
+                            textAlign: TextAlign.right,
+                          ),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Transform.scale(
+                                scale: 1.3,
+                                child: Switch(
+                                  splashRadius: 2.1,
+                                  //activeColor: Colors.white,
+                                  value: themeProvider.darkTheme,
+                                  onChanged: (value) {
+                                    themeProvider.darkTheme =
+                                        !themeProvider.darkTheme;
+                                  },
+                                  activeThumbImage:
+                                      AssetImage('assets/images/moon.png'),
+                                  inactiveThumbImage:
+                                      AssetImage('assets/images/sun.png'),
+                                ),
                               ),
-                            ),
-                            Text(
-                              themeProvider.getTheme == darkTheme
-                                  ? 'حالت شب'
-                                  : 'حالت روز',
-                              textScaleFactor: 1.3,
-                            ),
-                          ],
+                              Text(
+                                themeProvider.darkTheme ==
+                                        themeProvider.darkTheme
+                                    ? 'حالت شب'
+                                    : 'حالت روز',
+                                textScaleFactor: 1.3,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Divider(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.white,
-                      ),
-                      ListTile(
-                        trailing: Icon(Icons.calendar_month),
-                        subtitle: Text(
-                          'کلیک کن تا تقویم رو ببینی',
-                          textAlign: TextAlign.right,
+                        Divider(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.grey
+                                  : Colors.white,
                         ),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'تقویم',
-                              softWrap: true,
-                              textScaleFactor: 1.3,
-                            ),
-                          ],
+                        ListTile(
+                          trailing: Icon(Icons.calendar_month),
+                          subtitle: Text(
+                            'کلیک کن تا تقویم رو ببینی',
+                            textAlign: TextAlign.right,
+                          ),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'تقویم',
+                                softWrap: true,
+                                textScaleFactor: 1.3,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return CalendarScreen();
+                              }),
+                            );
+                          },
                         ),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) {
-                              return CalendarScreen();
-                            }),
-                          );
-                        },
-                      ),
-                      Divider(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.white,
-                      ),
-                      ListTile(
-                        trailing: Icon(Icons.money),
-                        subtitle: Text(
-                          'زمان چک خودتو بده',
-                          textAlign: TextAlign.right,
+                        Divider(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.grey
+                                  : Colors.white,
                         ),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'موعود چک',
-                              softWrap: true,
-                              textScaleFactor: 1.3,
-                            ),
-                          ],
+                        ListTile(
+                          trailing: Icon(Icons.money),
+                          subtitle: Text(
+                            'زمان چک خودتو بده',
+                            textAlign: TextAlign.right,
+                          ),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'موعود چک',
+                                softWrap: true,
+                                textScaleFactor: 1.3,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return ChequeScreen();
+                              }),
+                            );
+                          },
                         ),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) {
-                              return ChequeScreen();
-                            }),
-                          );
-                        },
-                      ),
-                      Divider(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.white,
-                      ),
-                      ListTile(
-                        trailing: Icon(Icons.person_rounded),
-                        subtitle: Text(
-                          'میخوای درباره من بدونی ؟',
-                          textAlign: TextAlign.right,
+                        Divider(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.grey
+                                  : Colors.white,
                         ),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'درباره من',
-                              softWrap: true,
-                              textScaleFactor: 1.3,
-                            ),
-                          ],
+                        ListTile(
+                          trailing: Icon(Icons.person_rounded),
+                          subtitle: Text(
+                            'میخوای درباره من بدونی ؟',
+                            textAlign: TextAlign.right,
+                          ),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'درباره من',
+                                softWrap: true,
+                                textScaleFactor: 1.3,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            print('object');
+                          },
                         ),
-                        onTap: () {
-                          print('object');
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            appBar: AppBar(
-              title: Text('سر وقت باش'),
-              leading: IconButton(
-                icon: Icon(
-                  Icons.menu,
-                  size: 32,
+                      ],
+                    );
+                  },
                 ),
-                onPressed: () => _scaffoldKey.currentState!.openDrawer(),
               ),
-              //backgroundColor: Color(0xff18DAA3),
-              actions: [],
-            ),
-            body: IndexedStack(
-              index: _selectedIndex,
-              children: getLayout(),
-            ),
-            bottomNavigationBar: SizedBox(
-              height: 91,
-              child: BottomNavigationBar(
-                elevation: 1,
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.check_box),
-                    label: 'ToDo',
-                    backgroundColor: Color(0xff18DAA3),
-                    activeIcon: Icon(
-                      Icons.indeterminate_check_box_outlined,
+              appBar: AppBar(
+                title: Text('سر وقت باش'),
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.menu,
+                    size: 32,
+                  ),
+                  onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+                ),
+                //backgroundColor: Color(0xff18DAA3),
+                actions: [],
+              ),
+              body: IndexedStack(
+                index: _selectedIndex,
+                children: getLayout(),
+              ),
+              bottomNavigationBar: SizedBox(
+                height: 91,
+                child: BottomNavigationBar(
+                  backgroundColor:
+                      themeProvider.darkTheme ? onInverseSurface : primary,
+                  elevation: 1,
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.check_box),
+                      label: 'ToDo',
+                      //backgroundColor: Color(0xff18DAA3),
+                      activeIcon: Icon(
+                        Icons.indeterminate_check_box_outlined,
+                      ),
                     ),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.note_add),
-                    label: 'Note',
-                    backgroundColor: Color(0xff18DAA3),
-                    activeIcon: Icon(
-                      Icons.note_add_outlined,
+                    BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.note_add,
+                      ),
+                      label: 'Note',
+                      //backgroundColor: Color(0xff18DAA3),
+                      activeIcon: Icon(
+                        Icons.note_add_outlined,
+                      ),
                     ),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.rocket_launch),
-                    label: 'feature',
-                    activeIcon: Icon(Icons.rocket_launch_outlined),
-                    backgroundColor: Color.fromARGB(255, 15, 114, 86),
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                selectedItemColor: Colors.white,
-                // backgroundColor: Color(0xff18DAA3),
-                onTap: _onItemTapped,
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.rocket_launch),
+                      label: 'feature',
+                      activeIcon: Icon(
+                        Icons.rocket_launch_outlined,
+                        color: primaryContainer,
+                      ),
+                      //backgroundColor: Color.fromARGB(255, 15, 114, 86),
+                    ),
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: Colors.white,
+                  // backgroundColor: Color(0xff18DAA3),
+                  onTap: _onItemTapped,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -305,47 +324,3 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 }
-
-final darkTheme = ThemeData(
-  fontFamily: 'SM',
-  textTheme: TextTheme(
-    headline4: TextStyle(
-      fontFamily: 'SM',
-      fontSize: 18,
-      //color: Colors.white,
-    ),
-  ),
-  brightness: Brightness.dark,
-  primarySwatch: Colors.blue,
-  appBarTheme: AppBarTheme(
-      backgroundColor: Color(0xff424242) //Color.fromARGB(255, 3, 116, 5),
-      ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Color.fromARGB(255, 94, 92, 92),
-  ),
-  accentColor: Colors.white,
-  scaffoldBackgroundColor: Color(0xff252525), // Color.fromARGB(255, 2, 74, 3),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Color(0xff212121),
-  ),
-);
-final lightTheme = ThemeData(
-  fontFamily: 'SM',
-  textTheme: TextTheme(
-    headline4: TextStyle(
-      fontFamily: 'SM',
-      fontSize: 18,
-      //color: Colors.white,
-    ),
-  ),
-  //brightness: Brightness.light,
-  bottomNavigationBarTheme:
-      BottomNavigationBarThemeData(backgroundColor: Color(0xff18DAA3)),
-  appBarTheme: AppBarTheme(backgroundColor: Color(0xff18DAA3)),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Color(0xff18DAA3),
-  ),
-  primarySwatch: Colors.blue,
-  accentColor: Colors.black,
-  scaffoldBackgroundColor: Color.fromARGB(250, 214, 213, 213),
-);

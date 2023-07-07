@@ -1,6 +1,7 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:note_application/calendar_view/extension.dart';
+import 'package:note_application/theme/color_schemes.g.dart';
 import 'package:provider/provider.dart';
 
 import '../calendar_view/day_view_screen.dart';
@@ -14,15 +15,15 @@ DateTime get _now => DateTime.now();
 
 class featureScreen extends StatelessWidget {
   featureScreen({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return CalendarControllerProvider<Event>(
       controller: EventController<Event>()..addAll(_events),
-      child: Consumer<ThemeProvider>(
+      child: Consumer<DarkThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
-            theme: themeProvider.getTheme,
+            theme: themeData(themeProvider.darkTheme, context),
             //title: 'Flutter Calendar Page Demo',
             debugShowCheckedModeBanner: false,
             home: Scaffold(
@@ -129,12 +130,8 @@ class SeeCalendar extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DayViewPageDemo();
-                          },
-                        ),
+                      Navigator.of(context).pushRoute(
+                        DayViewPageDemo(),
                       );
                     },
                     child: Text('برنامه روزانه'),
@@ -154,22 +151,25 @@ class SeeCalendar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () => context.pushRoute(MonthViewPageDemo()),
-                    child: Text('برنامه هفتگی'),
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.black12,
-                      backgroundColor:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Color.fromARGB(255, 25, 25, 25)
-                              : Color(0xff18DAA3),
-                      minimumSize: Size(320, 40),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 15,
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: ElevatedButton(
+                      onPressed: () => context.pushRoute(MonthViewPageDemo()),
+                      child: Text('برنامه هفتگی'),
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.black12,
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Color.fromARGB(255, 25, 25, 25)
+                                : Color(0xff18DAA3),
+                        minimumSize: Size(320, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 15,
+                        ),
                       ),
                     ),
                   )

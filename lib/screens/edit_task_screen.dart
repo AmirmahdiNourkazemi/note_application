@@ -61,9 +61,9 @@ class _editTsakWidgetState extends State<editTsakWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Color(0xff424242),
+      // backgroundColor: Theme.of(context).brightness == Brightness.light
+      //     ? Colors.white
+      //     : Color(0xff424242),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -85,16 +85,15 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                       labelText: 'تسک ها',
                       labelStyle: TextStyle(
                         fontSize: 25,
-                        color: negahban1.hasFocus
-                            ? Theme.of(context).brightness == Brightness.dark
-                                ? Color(0xff18DAA3)
-                                : Colors.black
-                            : Color(0xff18DAA3),
+                        // color: negahban1.hasFocus
+                        //     ? Theme.of(context).brightness == Brightness.dark
+                        //         ? Color(0xff18DAA3)
+                        //         : Colors.black
+                        //     : Color(0xff18DAA3),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide:
-                            BorderSide(color: Color(0xffC5C5C5), width: 3.0),
+                        borderSide: BorderSide(width: 3.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -102,7 +101,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                         ),
                         borderSide: BorderSide(
                           width: 3,
-                          color: Color(0xff18DAA3),
+                          //color: Color(0xff18DAA3),
                         ),
                       ),
                     ),
@@ -126,22 +125,21 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                       labelText: 'عنوان تسک ها',
                       labelStyle: TextStyle(
                         fontSize: 25,
-                        color: negahban2.hasFocus
-                            ? Theme.of(context).brightness == Brightness.dark
-                                ? Color(0xff18DAA3)
-                                : Colors.black
-                            : Color(0xff18DAA3),
+                        // color: negahban2.hasFocus
+                        //     ? Theme.of(context).brightness == Brightness.dark
+                        //         ? Color(0xff18DAA3)
+                        //         : Colors.black
+                        //     : Color(0xff18DAA3),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide:
-                            BorderSide(color: Color(0xffC5C5C5), width: 3.0),
+                        borderSide: BorderSide(width: 3.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         borderSide: BorderSide(
                           width: 3,
-                          color: Color(0xff18DAA3),
+                          // color: Color(0xff18DAA3),
                         ),
                       ),
                     ),
@@ -163,10 +161,10 @@ class _editTsakWidgetState extends State<editTsakWidget> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   // primary: Colors.blue,
-                  backgroundColor:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 94, 92, 92)
-                          : Color(0xff18DAA3),
+                  // backgroundColor:
+                  //     Theme.of(context).brightness == Brightness.dark
+                  //         ? Color.fromARGB(255, 94, 92, 92)
+                  //         : Color(0xff18DAA3),
                   minimumSize: Size(200, 40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -245,7 +243,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                   'ساعت رو انتخاب کن',
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white,
+                    //color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -317,7 +315,7 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                     final snackBar = SnackBar(
                       elevation: 0,
                       behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.transparent,
+                      //backgroundColor: Colors.transparent,
                       content: AwesomeSnackbarContent(
                         title: 'تسک با موفقیت ادیت شد',
                         message: 'دیگه نگران چیزی نباش',
@@ -339,16 +337,16 @@ class _editTsakWidgetState extends State<editTsakWidget> {
                   'ادیت کردن تسک',
                   style: TextStyle(
                     fontSize: 18,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Color(0xff18DAA3)
-                        : Colors.black,
+                    // color: Theme.of(context).brightness == Brightness.dark
+                    //     ? Color(0xff18DAA3)
+                    //     : Colors.black,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 94, 92, 92)
-                          : Color(0xff18DAA3),
+                  // backgroundColor:
+                  //     Theme.of(context).brightness == Brightness.dark
+                  //         ? Color.fromARGB(255, 94, 92, 92)
+                  //         : Color(0xff18DAA3),
                   minimumSize: Size(200, 40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -391,7 +389,7 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        // primary: Colors.blue,
+        primary: Colors.blue,
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? Color.fromARGB(255, 94, 92, 92)
             : Color(0xff18DAA3),
@@ -423,7 +421,7 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
         'ساعت رو انتخاب کن',
         style: TextStyle(
           fontSize: 18,
-          color: Colors.white,
+          //color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),

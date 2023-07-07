@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).dividerColor,
       //backgroundColor: Color.fromARGB(250, 214, 213, 213),
       body: ToDoScreen(),
       floatingActionButton: Visibility(

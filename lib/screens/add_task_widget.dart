@@ -54,9 +54,9 @@ class _addTsakWidgetState extends State<addTsakWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Color(0xff424242),
+      // backgroundColor: Theme.of(context).brightness == Brightness.light
+      //     ? Colors.white
+      //     : Color(0xff424242),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -78,14 +78,13 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                       labelText: 'تسک ها',
                       labelStyle: TextStyle(
                         fontSize: 20,
-                        color: negahban1.hasFocus
-                            ? Color(0xff18DAA3)
-                            : Colors.grey,
+                        // color: negahban1.hasFocus
+                        //     ? Color(0xff18DAA3)
+                        //     : Colors.grey,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide:
-                            BorderSide(color: Color(0xffC5C5C5), width: 3.0),
+                        borderSide: BorderSide(width: 3.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -93,9 +92,9 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         ),
                         borderSide: BorderSide(
                           width: 3,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Color.fromARGB(255, 94, 92, 92)
-                              : Color(0xff18DAA3),
+                          // color: Theme.of(context).brightness == Brightness.dark
+                          //     ? Color.fromARGB(255, 94, 92, 92)
+                          //     : Color(0xff18DAA3),
                         ),
                       ),
                     ),
@@ -119,22 +118,21 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                       labelText: 'عنوان تسک ها',
                       labelStyle: TextStyle(
                         fontSize: 20,
-                        color: negahban2.hasFocus
-                            ? Color(0xff18DAA3)
-                            : Colors.grey,
+                        // color: negahban2.hasFocus
+                        //     ? Color(0xff18DAA3)
+                        //     : Colors.grey,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
-                        borderSide:
-                            BorderSide(color: Color(0xffC5C5C5), width: 3.0),
+                        borderSide: BorderSide(width: 3.0),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         borderSide: BorderSide(
                           width: 3,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Color.fromARGB(255, 94, 92, 92)
-                              : Color(0xff18DAA3),
+                          // color: Theme.of(context).brightness == Brightness.dark
+                          //     ? Color.fromARGB(255, 94, 92, 92)
+                          //     : Color(0xff18DAA3),
                         ),
                       ),
                     ),
@@ -147,10 +145,10 @@ class _addTsakWidgetState extends State<addTsakWidget> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   // primary: Colors.blue,
-                  backgroundColor:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 94, 92, 92)
-                          : Color(0xff18DAA3),
+                  // backgroundColor:
+                  //     Theme.of(context).brightness == Brightness.dark
+                  //         ? Color.fromARGB(255, 94, 92, 92)
+                  //         : Color(0xff18DAA3),
                   minimumSize: Size(200, 40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -169,15 +167,15 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                       containerHeight: 90,
                       cancelStyle: TextStyle(
                         fontSize: 20,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Color(0xff424242),
+                        // color: Theme.of(context).brightness == Brightness.dark
+                        //     ? Colors.white
+                        //     : Color(0xff424242),
                       ),
                       doneStyle: TextStyle(
                         fontSize: 20,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Color(0xff424242),
+                        // color: Theme.of(context).brightness == Brightness.dark
+                        //     ? Colors.white
+                        //     : Color(0xff424242),
                       ),
                       titleHeight: 60,
                       itemHeight: 40,
@@ -229,7 +227,7 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                   'ساعت رو انتخاب کن',
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white,
+                    //color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -339,16 +337,16 @@ class _addTsakWidgetState extends State<addTsakWidget> {
                         'اضافه کردن تسک',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Color(0xff18DAA3)
-                              : Colors.black,
+                          // color: Theme.of(context).brightness == Brightness.dark
+                          //     ? Color(0xff18DAA3)
+                          //     : Colors.black,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Color.fromARGB(255, 94, 92, 92)
-                                : Color(0xff18DAA3),
+                        // backgroundColor:
+                        //     Theme.of(context).brightness == Brightness.dark
+                        //         ? Color.fromARGB(255, 94, 92, 92)
+                        //         : Color(0xff18DAA3),
                         minimumSize: Size(200, 40),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -399,9 +397,9 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         // primary: Colors.blue,
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Color.fromARGB(255, 94, 92, 92)
-            : Color(0xff18DAA3),
+        // backgroundColor: Theme.of(context).brightness == Brightness.dark
+        //     ? Color.fromARGB(255, 94, 92, 92)
+        //     : Color(0xff18DAA3),
         minimumSize: Size(200, 40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -430,7 +428,7 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
         'ساعت رو انتخاب کن',
         style: TextStyle(
           fontSize: 18,
-          color: Colors.white,
+          // color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),

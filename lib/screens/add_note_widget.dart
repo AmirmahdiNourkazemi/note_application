@@ -58,18 +58,18 @@ class _AddNoteState extends State<AddNote> {
                     labelText: 'موضوع',
                     labelStyle: TextStyle(
                       fontSize: 25,
-                      color: negahban1.hasFocus
-                          ? Color(0xff18DAA3)
-                          : Theme.of(context).brightness == Brightness.dark
-                              ? Color.fromARGB(255, 94, 92, 92)
-                              : Colors.white,
+                      // color: negahban1.hasFocus
+                      //     ? Color(0xff18DAA3)
+                      //     : Theme.of(context).brightness == Brightness.dark
+                      //         ? Color.fromARGB(255, 94, 92, 92)
+                      //         : Colors.white,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Color(0xff18DAA3)
-                              : Colors.white,
+                          // color: Theme.of(context).brightness == Brightness.dark
+                          //     ? Color(0xff18DAA3)
+                          //     : Colors.white,
                           width: 3.0),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -78,9 +78,9 @@ class _AddNoteState extends State<AddNote> {
                       ),
                       borderSide: BorderSide(
                         width: 3,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Color(0xff18DAA3)
-                            : Colors.white,
+                        // color: Theme.of(context).brightness == Brightness.dark
+                        //     ? Color(0xff18DAA3)
+                        //     : Colors.white,
                       ),
                     ),
                   ),
@@ -104,20 +104,20 @@ class _AddNoteState extends State<AddNote> {
                     labelText: 'متن',
                     labelStyle: TextStyle(
                       fontSize: 30,
-                      color: negahban2.hasFocus
-                          ? Color(0xff18DAA3)
-                          : Theme.of(context).brightness == Brightness.dark
-                              ? Colors.grey
-                              : Colors.white,
+                      // color: negahban2.hasFocus
+                      //     // ? Color(0xff18DAA3)
+                      //     // : Theme.of(context).brightness == Brightness.dark
+                      //     //     ? Colors.grey
+                      //     //     : Colors.white,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(15),
                       ),
                       borderSide: BorderSide(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Color(0xff18DAA3)
-                            : Colors.white,
+                        // color: Theme.of(context).brightness == Brightness.dark
+                        //     ? Color(0xff18DAA3)
+                        //     : Colors.white,
                         width: 3.0,
                       ),
                     ),
@@ -127,7 +127,7 @@ class _AddNoteState extends State<AddNote> {
                       ),
                       borderSide: BorderSide(
                         width: 3,
-                        color: Color(0xff18DAA3),
+                        //color: Color(0xff18DAA3),
                       ),
                     ),
                   ),
@@ -160,16 +160,16 @@ class _AddNoteState extends State<AddNote> {
                       'اضافه کردن نوت',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Color(0xff18DAA3)
-                            : Colors.black,
+                        // color: Theme.of(context).brightness == Brightness.dark
+                        //     ? Color(0xff18DAA3)
+                        //     : Colors.black,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Color.fromARGB(255, 94, 92, 92)
-                              : Color(0xff18DAA3),
+                      // backgroundColor:
+                      //     Theme.of(context).brightness == Brightness.dark
+                      //         ? Color.fromARGB(255, 94, 92, 92)
+                      //         : Color(0xff18DAA3),
                       minimumSize: Size(200, 40),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

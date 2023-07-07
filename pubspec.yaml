@@ -50,6 +50,7 @@ dependencies:
   jalali_table_calendar: ^1.1.2+1
   persian_date: ^0.1.5
   calendar_view: ^1.0.3
+  persian_datetime_picker: ^2.6.0
   
   
 dev_dependencies:

@@ -45,7 +45,7 @@ class _SeeNoteScreenState extends State<SeeNoteScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Colors.white, width: 0.5),
+                    border: Border.all(width: 0.5),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:note_application/theme/color_schemes.g.dart';
+import 'package:note_application/theme/themes.dart';
+import 'package:provider/provider.dart';
 
 import '../data/task.dart';
+import '../models/ThemeNotifier.dart';
 import '../screens/edit_task_screen.dart';
 
 class TaskWidget extends StatefulWidget {
@@ -11,6 +15,8 @@ class TaskWidget extends StatefulWidget {
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
+  DarkThemeProvider themeChangeProvider = DarkThemeProvider();
+
   bool isBoxChecked = false;
   @override
   void initState() {
@@ -20,35 +26,39 @@ class _TaskWidgetState extends State<TaskWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return getTaskItem();
+    return ChangeNotifierProvider(
+        create: (context) => themeChangeProvider, child: getTaskItem());
   }
 
   Widget getTaskItem() {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          isBoxChecked = !isBoxChecked;
-          widget.task.isDone = isBoxChecked;
-          widget.task.save();
-        });
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        height: 132,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(16),
+    return Consumer<DarkThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return InkWell(
+          onTap: () {
+            setState(() {
+              isBoxChecked = !isBoxChecked;
+              widget.task.isDone = isBoxChecked;
+              widget.task.save();
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            height: 132,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(),
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.all(
+                Radius.circular(16),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(12.0),
+              child: getMainItem(),
+            ),
           ),
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Color.fromARGB(255, 94, 92, 92)
-              : Colors.white,
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
-          child: getMainItem(),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -118,35 +128,30 @@ class _TaskWidgetState extends State<TaskWidget> {
           height: 28,
           width: 90,
           decoration: BoxDecoration(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Color.fromARGB(255, 41, 41, 41)
-                : Color(0xff18DAA3),
+            color: Theme.of(context).backgroundColor,
             borderRadius: BorderRadius.all(
               Radius.circular(20),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 11),
-            child: Row(
-              children: [
-                Image.asset('assets/images/icon_time.png'),
-                SizedBox(
-                  width: 5,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.timelapse,
+                size: 20,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                '${widget.task.time.hour}:${getMinute(widget.task.time)}',
+                style: TextStyle(
+                  fontSize: 15,
+                  //color: Colors.white,
                 ),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 0, bottom: 0),
-                    child: Text(
-                      '${widget.task.time.hour}:${getMinute(widget.task.time)}',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
         SizedBox(
@@ -164,9 +169,7 @@ class _TaskWidgetState extends State<TaskWidget> {
             height: 28,
             width: 90,
             decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Color.fromARGB(255, 41, 41, 41)
-                  : Color(0xffE2F6F1),
+              color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.all(
                 Radius.circular(20),
               ),
@@ -178,7 +181,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                 children: [
                   Icon(
                     Icons.edit,
-                    color: Color(0xff18DAA3),
+                    //color: Color(0xff18DAA3),
                     size: 18,
                   ),
                   SizedBox(
@@ -189,7 +192,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff18DAA3),
+                      //color: Color(0xff18DAA3),
                     ),
                   )
                 ],
